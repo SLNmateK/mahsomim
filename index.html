@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d1b2a">
+<title>מכרז מחסומים</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;overflow-x:hidden;}
+body{font-family:Arial,sans-serif;background:#e6eff8;color:#1a2b3c;direction:rtl;padding-bottom:90px;font-size:14px;-webkit-overflow-scrolling:touch;}
+
+header{background:linear-gradient(135deg,#0d1b2a,#1b3a5c,#2d5f8a);color:#fff;
+  padding:10px 12px;display:flex;align-items:center;gap:10px;
+  position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.hico{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.htit{font-size:15px;font-weight:bold;}
+.hsub{font-size:10px;color:rgba(255,255,255,.55);}
+.hbdg{margin-right:auto;background:#f5a623;color:#0d1b2a;font-size:9px;
+  font-weight:bold;padding:3px 8px;border-radius:20px;}
+
+.page{max-width:1400px;margin:0 auto;padding:10px 8px;display:flex;flex-direction:column;gap:10px;}
+@media(min-width:1024px){
+  body{padding-bottom:0;}
+  #SB{display:none!important;}
+  .page{display:grid;grid-template-columns:1fr 355px;gap:14px;padding:14px 16px;align-items:start;}
+  .MC{grid-column:1;display:flex;flex-direction:column;gap:14px;}
+  .SC{grid-column:2;display:flex;flex-direction:column;gap:14px;
+    position:sticky;top:66px;max-height:calc(100vh - 80px);overflow-y:auto;}
+}
+
+.card{background:#fff;border-radius:10px;border:1px solid #c8d8e8;box-shadow:0 1px 5px rgba(0,0,0,.07);}
+.chd{background:linear-gradient(90deg,#1b3a5c,#2d5f8a);color:#fff;
+  padding:9px 12px;font-size:13px;font-weight:bold;border-radius:10px 10px 0 0;}
+.cbd{padding:11px 12px;}
+
+/* fields */
+.flds{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+@media(min-width:600px){.flds{grid-template-columns:1fr 1fr 1fr;}}
+.fg{display:flex;flex-direction:column;gap:2px;}
+.fg label{font-size:10px;font-weight:bold;color:#6b8299;text-transform:uppercase;}
+.fg input,.fg select{padding:9px 8px;border:1.5px solid #c8d8e8;border-radius:7px;
+  font-family:inherit;font-size:14px;background:#f5f9fd;width:100%;}
+.fg input:focus,.fg select:focus{outline:none;border-color:#4a9fd4;background:#fff;}
+
+/* search */
+.sw{padding:8px 10px;border-bottom:1px solid #c8d8e8;background:#f5f9fd;}
+.sw input{width:100%;padding:10px 12px;border:1.5px solid #c8d8e8;border-radius:8px;
+  font-family:inherit;font-size:15px;background:#fff;}
+.sw input:focus{outline:none;border-color:#4a9fd4;}
+#IBAR{display:none;background:#edfbf3;border-bottom:2px solid #27ae60;
+  padding:8px 12px;font-size:13px;font-weight:bold;color:#27ae60;}
+
+/* item rows */
+.sec{padding:5px 11px;background:linear-gradient(90deg,#dce8f5,#e8f2fb);
+  font-size:11px;font-weight:bold;color:#1b3a5c;
+  border-top:2px solid #4a9fd4;border-bottom:1px solid #c8d8e8;}
+.row{display:flex;align-items:center;gap:8px;padding:8px 11px;border-bottom:1px solid #edf2f7;}
+.row.on{background:#edfbf3;}
+.ri{flex:1;min-width:0;}
+.rd{font-size:13px;line-height:1.35;word-break:break-word;}
+.rm{font-size:10px;color:#6b8299;margin-top:2px;}
+.ht{font-size:9px;padding:1px 4px;border-radius:3px;background:#ddf0ff;color:#1a6fa6;font-weight:normal;}
+.rt{font-size:12px;font-weight:bold;color:#27ae60;white-space:nowrap;flex-shrink:0;min-width:50px;text-align:left;}
+/* THE KEY: simple big number input */
+.rq{width:66px;flex-shrink:0;padding:9px 4px;
+  border:1.5px solid #c8d8e8;border-radius:8px;
+  font-family:inherit;font-size:17px;font-weight:bold;
+  text-align:center;background:#fff;
+  -moz-appearance:textfield;
+  touch-action:manipulation;}
+.rq::-webkit-inner-spin-button{-webkit-appearance:none;}
+.rq:focus{outline:none;border-color:#4a9fd4;background:#f0f8ff;}
+.row.on .rq{border-color:#27ae60;background:#edfbf3;color:#27ae60;}
+
+/* delays */
+.dlst{display:grid;gap:8px;}
+@media(min-width:560px){.dlst{grid-template-columns:1fr 1fr;}}
+.dc{border:1.5px solid #c8d8e8;border-radius:9px;padding:9px 10px;
+  display:flex;align-items:center;gap:9px;background:#f5f9fd;}
+.dc.on{border-color:#4a9fd4;background:#eef7ff;}
+.dp{font-size:21px;font-weight:bold;color:#f5a623;min-width:36px;text-align:center;flex-shrink:0;}
+.di{flex:1;min-width:0;}
+.dn{font-size:12px;font-weight:bold;color:#1b3a5c;}
+.dr{font-size:10px;color:#6b8299;}
+.dh{font-size:10px;color:#27ae60;font-weight:bold;margin-top:2px;}
+.dq{width:58px;flex-shrink:0;padding:8px 4px;
+  border:1.5px solid #c8d8e8;border-radius:8px;
+  font-family:inherit;font-size:17px;font-weight:bold;
+  text-align:center;background:#fff;-moz-appearance:textfield;
+  touch-action:manipulation;}
+.dq::-webkit-inner-spin-button{-webkit-appearance:none;}
+.dq:focus{outline:none;border-color:#4a9fd4;}
+
+/* summary */
+.srow{display:flex;justify-content:space-between;padding:7px 1px;border-bottom:1px solid #c8d8e8;gap:6px;}
+.srow:last-child{border-bottom:none;}
+.sl{font-size:12px;color:#6b8299;flex:1;}
+.sv{font-size:13px;font-weight:bold;white-space:nowrap;}
+.sv.bl{color:#4a9fd4;}.sv.ac{color:#f5a623;}
+.tot-box{background:linear-gradient(135deg,#0d1b2a,#1b3a5c);border-radius:9px;
+  padding:12px;display:flex;justify-content:space-between;align-items:center;
+  margin-top:8px;gap:8px;}
+.tl{color:rgba(255,255,255,.7);font-size:12px;}
+.tv{color:#fff;font-size:20px;font-weight:bold;white-space:nowrap;}
+.vn{font-size:9px;background:rgba(255,255,255,.13);border-radius:3px;padding:1px 4px;}
+.can-box{background:#fff5f5;border:1.5px solid #fca5a5;border-radius:8px;
+  padding:8px 10px;display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ci{font-size:18px;flex-shrink:0;}
+.ct h4{font-size:11px;font-weight:bold;color:#e74c3c;}
+.ct p{font-size:10px;color:#888;}
+.ca{font-size:13px;font-weight:bold;color:#e74c3c;white-space:nowrap;margin-right:auto;}
+.sel-box{border:1px solid #c8d8e8;border-radius:7px;overflow:hidden;margin-top:9px;}
+.sel-hd{background:#f5f9fd;padding:6px 10px;font-size:11px;font-weight:bold;color:#1b3a5c;border-bottom:1px solid #c8d8e8;}
+.sel-bd{max-height:150px;overflow-y:auto;padding:5px 10px;}
+.si{display:flex;justify-content:space-between;gap:4px;padding:3px 0;border-bottom:1px solid #f0f0f0;font-size:11px;}
+.si:last-child{border-bottom:none;}
+.sn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sq{color:#6b8299;white-space:nowrap;font-size:10px;}
+.ss{font-weight:bold;color:#1b3a5c;white-space:nowrap;}
+
+/* buttons */
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 11px 11px;}
+@media(min-width:560px){.btns{grid-template-columns:1fr 1fr 1fr;}}
+.btns input{padding:11px 5px;border:none;border-radius:8px;
+  font-family:inherit;font-size:13px;font-weight:bold;
+  cursor:pointer;width:100%;-webkit-appearance:none;}
+.b1{background:linear-gradient(135deg,#2d5f8a,#1b3a5c);color:#fff;grid-column:1/-1;}
+@media(min-width:560px){.b1{grid-column:auto;}}
+.b2{background:#e6eff8;color:#1b3a5c;border:1.5px solid #c8d8e8!important;}
+.b3{background:#fff0f0;color:#e74c3c;border:1.5px solid #fca5a5!important;}
+.bsend{width:100%;padding:14px;border:none;border-radius:9px;
+  font-family:inherit;font-size:14px;font-weight:bold;cursor:pointer;
+  background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;
+  display:block;margin-top:8px;-webkit-appearance:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;z-index:1;}
+
+/* workflow */
+.wf{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #c8d8e8;}
+.wf:last-child{border-bottom:none;}
+.wn{width:23px;height:23px;border-radius:50%;background:#2d5f8a;color:#fff;
+  font-size:10px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.wn.ok{background:#27ae60;}
+.wd{flex:1;font-size:12px;line-height:1.4;}
+.wd b{display:block;font-size:12px;}
+
+/* signature */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.sb{border:1.5px solid #c8d8e8;border-radius:8px;overflow:hidden;}
+.st{background:linear-gradient(90deg,#1b3a5c,#2d5f8a);color:#fff;
+  font-size:11px;font-weight:bold;padding:6px 9px;text-align:center;}
+.sw2{padding:6px;background:#fafcff;}
+canvas{display:block;width:100%;height:115px;background:#fff;
+  border-radius:5px;border:1px dashed #c8d8e8;touch-action:none;cursor:crosshair;}
+.scl{width:100%;padding:8px;border:none;background:#fff8f8;color:#e74c3c;
+  font-family:inherit;font-size:11px;font-weight:bold;cursor:pointer;
+  border-top:1px solid #c8d8e8;-webkit-appearance:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.sdt{padding:5px 9px 7px;font-size:10px;color:#6b8299;
+  display:flex;align-items:center;gap:5px;border-top:1px solid #c8d8e8;}
+.sdt input{flex:1;min-width:0;padding:5px 6px;border:1.5px solid #c8d8e8;
+  border-radius:5px;font-family:inherit;font-size:12px;background:#f5f9fd;}
+
+/* sticky bar */
+#SB{position:fixed;bottom:0;left:0;right:0;background:#0d1b2a;color:#fff;
+  padding:9px 13px;display:flex;align-items:center;justify-content:space-between;
+  z-index:5;box-shadow:0 -3px 10px rgba(0,0,0,.24);}
+.bl2{font-size:10px;color:rgba(255,255,255,.55);}
+.bt{font-size:19px;font-weight:bold;}
+.bc{background:#f5a623;color:#0d1b2a;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:14px;}
+
+.fnote{text-align:center;font-size:10px;color:#6b8299;padding:4px 0;}
+@media print{
+  /* hide everything by default */
+  body{padding-bottom:0;background:#fff;}
+  #SB,.btns,.bsend,.wf,
+  .card:not(.print-show),
+  #SRCH,.sw,.sec,.row,.chd{display:none!important;}
+  
+  /* layout */
+  .page{display:block!important;padding:0!important;margin:0!important;}
+  .MC,.SC{display:block!important;width:100%!important;position:static!important;
+    max-height:none!important;overflow:visible!important;}
+  
+  /* show only print cards */
+  .card.print-show{display:block!important;box-shadow:none!important;
+    border:1px solid #ccc!important;margin-bottom:10px!important;
+    border-radius:4px!important;break-inside:avoid;}
+  .card.print-show .chd{display:block!important;background:#1b3a5c!important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .card.print-show .cbd{display:block!important;}
+  
+  /* selected items print table */
+  #PRINT-ITEMS{display:block!important;}
+  
+  /* summary rows */
+  .srow{display:flex!important;}
+  .can-box{display:flex!important;}
+  .tot-box{display:flex!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .sel-box{display:block!important;}
+  .sel-bd{max-height:none!important;overflow:visible!important;}
+  
+  /* delay cards */
+  .dc{display:flex!important;}
+  .dlst{display:grid!important;}
+  
+  /* sig */
+  .sg{display:grid!important;}
+  .sb{display:block!important;}
+  canvas{display:block!important;}
+  
+  /* fields */
+  .flds{display:grid!important;}
+  .fg{display:flex!important;}
+  .fg input,.fg select{display:block!important;border:none!important;
+    background:transparent!important;padding:2px 0!important;}
+  
+  /* hide rows with no quantity in delays */
+  .dc:not(.on){display:none!important;}
+  
+  /* hide screen-only elements inside print cards */
+  #ILIST,#IBAR,.sw{display:none!important;}
+  #PRINT-ITEMS{display:block!important;}
+  .no-print{display:none!important;}
+  
+  /* SC floats below MC in print */
+  .SC{margin-top:0!important;}
+  
+  /* put summary/sigs at end — handled by DOM order, SC is after MC */
+  
+  /* clean field display */
+  .fg input[type=text],.fg input[type=time],.fg input[type=date]{
+    border-bottom:1px solid #ccc!important;padding:2px 0!important;font-size:13px!important;
+  }
+  
+  /* page setup */
+  @page{margin:15mm 12mm;}
+}
+
+/* ── MOBILE TOUCH FIXES ── */
+input[type=button],input[type=submit],button,select,input[type=number],input[type=date],input[type=time],input[type=text],input[type=search]{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+/* Ensure nothing invisible blocks taps */
+.page *{pointer-events:auto;}
+
+/* ── LOGIN SCREEN ── */
+#loginScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg,#0d1b2a 0%,#1b3a5c 60%,#2d5f8a 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:Arial,Heebo,sans-serif;
+}
+.login-box{
+  background:#fff;border-radius:16px;padding:36px 32px;
+  width:90%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.4);
+  text-align:center;
+}
+.login-logo{font-size:48px;margin-bottom:8px;}
+.login-title{font-size:20px;font-weight:bold;color:#1b3a5c;margin-bottom:4px;}
+.login-sub{font-size:12px;color:#6b8299;margin-bottom:24px;}
+.login-field{
+  width:100%;padding:13px 14px;margin-bottom:12px;
+  border:1.5px solid #c8d8e8;border-radius:9px;
+  font-family:inherit;font-size:15px;background:#f5f9fd;
+  direction:rtl;text-align:right;
+  box-sizing:border-box;
+}
+.login-field:focus{outline:none;border-color:#4a9fd4;background:#fff;}
+.login-btn{
+  width:100%;padding:14px;border:none;border-radius:9px;
+  background:linear-gradient(135deg,#27ae60,#1e8449);
+  color:#fff;font-family:inherit;font-size:15px;font-weight:bold;
+  cursor:pointer;margin-top:4px;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.login-btn:active{opacity:.88;}
+.login-err{
+  color:#e74c3c;font-size:12px;margin-top:10px;
+  min-height:18px;font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🚧</div>
+    <div class="login-title">מכרז מחסומים</div>
+    <div class="login-sub">בחר פורטל להמשך</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+      <button id="pbTender" onclick="selPortal('tender')"
+        style="padding:14px 8px;border:2.5px solid #1b3a5c;border-radius:10px;background:#e8f0fb;cursor:pointer;font-family:inherit;width:100%;touch-action:manipulation;">
+        <span style="font-size:28px;display:block;margin-bottom:6px;">📋</span>
+        <span style="font-size:13px;font-weight:bold;color:#1b3a5c;display:block;">מכרז מחסומים</span>
+        <span style="font-size:10px;color:#6b8299;display:block;margin-top:2px;">מנהל המכרז</span>
+      </button>
+      <button id="pbMerkaz" onclick="selPortal('merkaz')"
+        style="padding:14px 8px;border:2.5px solid #c8d8e8;border-radius:10px;background:#f5f9fd;cursor:pointer;font-family:inherit;width:100%;touch-action:manipulation;">
+        <span style="font-size:28px;display:block;margin-bottom:6px;">📦</span>
+        <span style="font-size:13px;font-weight:bold;color:#1b3a5c;display:block;">מרכז הזמנות</span>
+        <span style="font-size:10px;color:#6b8299;display:block;margin-top:2px;">ספקים</span>
+      </button>
+    </div>
+    <input class="login-field" type="text" id="loginUser" placeholder="שם משתמש"
+      autocomplete="username" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <input class="login-field" type="password" id="loginPass" placeholder="סיסמה"
+      autocomplete="current-password">
+    <button class="login-btn" onclick="doLogin()">כניסה →</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<header id="mainHeader" style="display:none">
+  <div class="hico">🚧</div>
+  <div><div class="htit">מכרז מחסומים</div><div class="hsub">הזמנת ציוד ועבודות</div></div>
+  <div class="hbdg">הזמנה רשמית</div>
+  <button onclick="logoutTender()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.85);border-radius:7px;padding:5px 10px;font-family:inherit;font-size:11px;cursor:pointer;touch-action:manipulation;white-space:nowrap;">← יציאה</button>
+  <button onclick="openPendingModal()" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:7px;padding:6px 10px;font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;touch-action:manipulation;">⏳ ממתינות <span id="pbadge" style="background:#f5a623;color:#0d1b2a;font-size:9px;font-weight:bold;padding:2px 5px;border-radius:20px;display:none;"></span></button>
+  <button onclick="openPendingModal()" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:7px;padding:6px 10px;font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;touch-action:manipulation;">⏳ ממתינות <span id="pbadge" style="background:#f5a623;color:#0d1b2a;font-size:9px;font-weight:bold;padding:2px 5px;border-radius:20px;display:none;"></span></button>
+  <button onclick="openInbox()" style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:7px;padding:6px 10px;font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;touch-action:manipulation;">📥 חתומות <span id="ibadge" style="background:#27ae60;color:#fff;font-size:9px;font-weight:bold;padding:2px 5px;border-radius:20px;display:none;"></span></button>
+</header>
+
+<div class="page" id="mainPage" style="display:none">
+<div class="MC">
+
+<div class="card print-show" id="CARD-EVENT">
+  <div class="chd">📋 פרטי האירוע</div>
+  <div class="cbd">
+    <div class="flds">
+      <div class="fg" style="grid-column:1/-1"><label>שם האירוע</label><input type="text" id="evName" placeholder="הזן שם האירוע"></div>
+      <div class="fg" style="grid-column:1/-1"><label>שם המזמין ותפקיד</label><input type="text" id="evOrd" placeholder="שם + תפקיד"></div>
+      <div class="fg"><label>סוג האירוע</label><select id="evType"><option>אירוע רגיל</option><option>ביטול אירוע</option></select></div>
+      <div class="fg"><label>שעת התייצבות</label><input type="time" id="evTime"></div>
+      <div class="fg"><label>תאריך התייצבות</label><input type="date" id="evStart"></div>
+      <div class="fg"><label>תאריך סיום</label><input type="date" id="evEnd"></div>
+      <div class="fg"><label>שעת מסירה</label><input type="time" id="evDel"></div>
+      <div class="fg"><label>מס׳ חשבונית</label><input type="text" id="invN" placeholder="מספר"></div>
+      <div class="fg"><label>חשבונית הקמה</label><input type="text" id="invS" placeholder="מתמשך"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card print-show" id="CARD-ITEMS">
+  <div class="chd">📦 פריטים שהוזמנו</div>
+  <div class="sw"><input type="search" id="SRCH" placeholder="🔍 חפש פריט..." oninput="flt(this.value)"></div>
+  <div id="IBAR"></div>
+  <!-- print only -->
+  <div id="PRINT-ITEMS" style="display:none;"></div>
+  <!-- screen only -->
+  <div id="ILIST"><div class="sec">📁 קבוצה א׳ – ציוד והתקנות</div>
+<div class="row" id="R1"><div class="ri"><div class="rd">מחסום באורך 200 ס"מ, גובה 120 ס"מ</div><div class="rm">יח' &nbsp;·&nbsp; ₪60</div></div><span class="rt" id="T1"></span><input class="rq" type="number" id="Q1" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(1,this.value)"></div>
+<div class="row" id="R2"><div class="ri"><div class="rd">מדרגות למעבר קהל</div><div class="rm">מטר גובה &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T2"></span><input class="rq" type="number" id="Q2" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(2,this.value)"></div>
+<div class="row" id="R3"><div class="ri"><div class="rd">דלת מובנית בגדר מודולרית</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T3"></span><input class="rq" type="number" id="Q3" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(3,this.value)"></div>
+<div class="row" id="R4"><div class="ri"><div class="rd">מחסום באורך 200 ס"מ, גובה 120 ס"מ כולל גלגלים ובלמים</div><div class="rm">יח' &nbsp;·&nbsp; ₪70</div></div><span class="rt" id="T4"></span><input class="rq" type="number" id="Q4" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(4,this.value)"></div>
+<div class="row" id="R5"><div class="ri"><div class="rd">גזיבו דגם א'</div><div class="rm">יח' &nbsp;·&nbsp; ₪450</div></div><span class="rt" id="T5"></span><input class="rq" type="number" id="Q5" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(5,this.value)"></div>
+<div class="row" id="R6"><div class="ri"><div class="rd">דשא סינטטי</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T6"></span><input class="rq" type="number" id="Q6" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(6,this.value)"></div>
+<div class="row" id="R7"><div class="ri"><div class="rd">מחסום לחץ בצבע שחור או כסוף</div><div class="rm">יח' &nbsp;·&nbsp; ₪250</div></div><span class="rt" id="T7"></span><input class="rq" type="number" id="Q7" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(7,this.value)"></div>
+<div class="row" id="R8"><div class="ri"><div class="rd">דלת עץ הכוללת משקוף ואפשרות נעילה כולל התקנה באתר המזמין</div><div class="rm">יח' &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T8"></span><input class="rq" type="number" id="Q8" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(8,this.value)"></div>
+<div class="row" id="R9"><div class="ri"><div class="rd">גוף תאורה כולל התקנה פלורסנטי/לד מוגן מים בהספק 2*36 ואט לפחות.</div><div class="rm">יח' &nbsp;·&nbsp; ₪150</div></div><span class="rt" id="T9"></span><input class="rq" type="number" id="Q9" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(9,this.value)"></div>
+<div class="row" id="R10"><div class="ri"><div class="rd">מחסום באורך 200 ס"מ, גובה 90 ס"מ</div><div class="rm">יח' &nbsp;·&nbsp; ₪70</div></div><span class="rt" id="T10"></span><input class="rq" type="number" id="Q10" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(10,this.value)"></div>
+<div class="row" id="R11"><div class="ri"><div class="rd">במות מיוחדות  MegaDeck HD+  ליצירת דרך זמנית גם בתנאי קרקע רכה ורטובה במיוחד.</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪20</div></div><span class="rt" id="T11"></span><input class="rq" type="number" id="Q11" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(11,this.value)"></div>
+<div class="row" id="R12"><div class="ri"><div class="rd">שולחן ייעודי למכונה במידות 70 * 120 ס"מובגובה</div><div class="rm">יח' &nbsp;·&nbsp; ₪400</div></div><span class="rt" id="T12"></span><input class="rq" type="number" id="Q12" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(12,this.value)"></div>
+<div class="row" id="R13"><div class="ri"><div class="rd">משטחי SignaRoad</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T13"></span><input class="rq" type="number" id="Q13" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(13,this.value)"></div>
+<div class="row" id="R14"><div class="ri"><div class="rd">גדר מודולרית ניידת גובה 2.02 מטרים, אורך 3.45 מטרים, כולל בסיס ועיגונים</div><div class="rm">יח' &nbsp;·&nbsp; ₪210</div></div><span class="rt" id="T14"></span><input class="rq" type="number" id="Q14" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(14,this.value)"></div>
+<div class="row" id="R15"><div class="ri"><div class="rd">תא שירותים סטנדרט אמריקאי בודד</div><div class="rm">יח' &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T15"></span><input class="rq" type="number" id="Q15" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(15,this.value)"></div>
+<div class="row" id="R16"><div class="ri"><div class="rd">בד יוטה</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪85</div></div><span class="rt" id="T16"></span><input class="rq" type="number" id="Q16" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(16,this.value)"></div>
+<div class="row" id="R17"><div class="ri"><div class="rd">גזיבו דגם ב'</div><div class="rm">יח' &nbsp;·&nbsp; ₪450</div></div><span class="rt" id="T17"></span><input class="rq" type="number" id="Q17" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(17,this.value)"></div>
+<div class="row" id="R18"><div class="ri"><div class="rd">פיגום בגבהים משתנים</div><div class="rm">קו"ב &nbsp;·&nbsp; ₪650</div></div><span class="rt" id="T18"></span><input class="rq" type="number" id="Q18" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(18,this.value)"></div>
+<div class="row" id="R19"><div class="ri"><div class="rd">מדרגות תיקניות הניתנות לניוד באורכים שונים</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T19"></span><input class="rq" type="number" id="Q19" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(19,this.value)"></div>
+<div class="row" id="R20"><div class="ri"><div class="rd">מצלמה BOX AXIS 4K</div><div class="rm">יח' &nbsp;·&nbsp; ₪1,500</div></div><span class="rt" id="T20"></span><input class="rq" type="number" id="Q20" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(20,this.value)"></div>
+<div class="row" id="R21"><div class="ri"><div class="rd">מקפיא שוכב, בנפח 400 ליטר</div><div class="rm">יח' &nbsp;·&nbsp; ₪300</div></div><span class="rt" id="T21"></span><input class="rq" type="number" id="Q21" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(21,this.value)"></div>
+<div class="row" id="R22"><div class="ri"><div class="rd">במות בגבהים משתנים</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T22"></span><input class="rq" type="number" id="Q22" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(22,this.value)"></div>
+<div class="row" id="R23"><div class="ri"><div class="rd">כבל CAT 7A</div><div class="rm">מ"א &nbsp;·&nbsp; ₪20</div></div><span class="rt" id="T23"></span><input class="rq" type="number" id="Q23" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(23,this.value)"></div>
+<div class="row" id="R24"><div class="ri"><div class="rd">מקרר עומד בעל דלת זכוכית</div><div class="rm">יח' &nbsp;·&nbsp; ₪300</div></div><span class="rt" id="T24"></span><input class="rq" type="number" id="Q24" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(24,this.value)"></div>
+<div class="row" id="R25"><div class="ri"><div class="rd">לוחות עץ בירג'</div><div class="rm">יח' &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T25"></span><input class="rq" type="number" id="Q25" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(25,this.value)"></div>
+<div class="row" id="R26"><div class="ri"><div class="rd">מערכת הקלטה דיגיטאלית  עד 16 מצלמות</div><div class="rm">יח' &nbsp;·&nbsp; ₪7,500</div></div><span class="rt" id="T26"></span><input class="rq" type="number" id="Q26" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(26,this.value)"></div>
+<div class="row" id="R27"><div class="ri"><div class="rd">עמוד תאורה + 2 קוורצים 1500 וואט</div><div class="rm">יח' &nbsp;·&nbsp; ₪750</div></div><span class="rt" id="T27"></span><input class="rq" type="number" id="Q27" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(27,this.value)"></div>
+<div class="row" id="R28"><div class="ri"><div class="rd">אוהל בגודל החל מ- 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן ללא מיזוג</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T28"></span><input class="rq" type="number" id="Q28" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(28,this.value)"></div>
+<div class="row" id="R29"><div class="ri"><div class="rd">מסך 24'</div><div class="rm">יח' &nbsp;·&nbsp; ₪900</div></div><span class="rt" id="T29"></span><input class="rq" type="number" id="Q29" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(29,this.value)"></div>
+<div class="row" id="R30"><div class="ri"><div class="rd">קוליסות עומדות לשימושים שונים</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T30"></span><input class="rq" type="number" id="Q30" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(30,this.value)"></div>
+<div class="row" id="R31"><div class="ri"><div class="rd">אוהל בגודל החל מ 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן כולל מערכת מיזוג אויר/קירור מאושרת לשימוש</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪150</div></div><span class="rt" id="T31"></span><input class="rq" type="number" id="Q31" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(31,this.value)"></div>
+<div class="row" id="R32"><div class="ri"><div class="rd">בניית תא הלבשה עשוי מעץ בגובה 2 מטר</div><div class="rm">יח' &nbsp;·&nbsp; ₪15</div></div><span class="rt" id="T32"></span><input class="rq" type="number" id="Q32" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(32,this.value)"></div>
+<div class="row" id="R33"><div class="ri"><div class="rd">תורן בגובה 3 מטר כולל דגל המדינה</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T33"></span><input class="rq" type="number" id="Q33" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(33,this.value)"></div>
+<div class="row" id="R34"><div class="ri"><div class="rd">אוהל בגודל החל מ 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן כולל מערכת חימום מאושרת לשימוש</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪120</div></div><span class="rt" id="T34"></span><input class="rq" type="number" id="Q34" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(34,this.value)"></div>
+<div class="row" id="R35"><div class="ri"><div class="rd">מזגן נייד תעשייתי</div><div class="rm">יח' &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T35"></span><input class="rq" type="number" id="Q35" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(35,this.value)"></div>
+<div class="row" id="R36"><div class="ri"><div class="rd">שושנת דגלים גובה 1 מטר עם 6 זרועות המחזיקות 6 תרנים בגובה מטר מעוגנות לקרקע</div><div class="rm">יח' &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T36"></span><input class="rq" type="number" id="Q36" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(36,this.value)"></div>
+<div class="row" id="R37"><div class="ri"><div class="rd">שמשיות גדולות בקוטר 3 מטר רבוע בצבע לבן, שמנת, כחול כולל בסיס ועיגונים נדרשים</div><div class="rm">יח' &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T37"></span><input class="rq" type="number" id="Q37" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(37,this.value)"></div>
+<div class="row" id="R38"><div class="ri"><div class="rd">בזנ"ט כולל הצבה והתקנה ע"פ דרישת המזמין</div><div class="rm">יח' &nbsp;·&nbsp; ₪1</div></div><span class="rt" id="T38"></span><input class="rq" type="number" id="Q38" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(38,this.value)"></div>
+<div class="row" id="R39"><div class="ri"><div class="rd">כסאות מהודרים בצבע שחור אחידים בסוג ובדגם</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T39"></span><input class="rq" type="number" id="Q39" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(39,this.value)"></div>
+<div class="row" id="R40"><div class="ri"><div class="rd">רשת דייג</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T40"></span><input class="rq" type="number" id="Q40" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(40,this.value)"></div>
+<div class="row" id="R41"><div class="ri"><div class="rd">גזיבו דגם ג'</div><div class="rm">יח' &nbsp;·&nbsp; ₪450</div></div><span class="rt" id="T41"></span><input class="rq" type="number" id="Q41" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(41,this.value)"></div>
+<div class="row" id="R42"><div class="ri"><div class="rd">שולחנות סטול בר אחידים בסוג ובדגם</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T42"></span><input class="rq" type="number" id="Q42" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(42,this.value)"></div>
+<div class="row" id="R43"><div class="ri"><div class="rd">בד לבד/שטיח כולל התקנה בצבעים אדום/כחול/אפור/חום/שחור/לבן</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T43"></span><input class="rq" type="number" id="Q43" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(43,this.value)"></div>
+<div class="row" id="R44"><div class="ri"><div class="rd">תא שירותים זוגי נגרר ממוזג הכולל כיור + סבונייה, מיכל הדחה עם מים, תאורה וחיבור למקור מתח עצמאי</div><div class="rm">יח' &nbsp;·&nbsp; ₪25,000</div></div><span class="rt" id="T44"></span><input class="rq" type="number" id="Q44" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(44,this.value)"></div>
+<div class="row" id="R45"><div class="ri"><div class="rd">מאוררים תעשייתי שקט 24 אינץ'</div><div class="rm">יח' &nbsp;·&nbsp; ₪200</div></div><span class="rt" id="T45"></span><input class="rq" type="number" id="Q45" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(45,this.value)"></div>
+<div class="row" id="R46"><div class="ri"><div class="rd">בד וויסטרה לכיסוי כולל התקנה בצבעים כחול, שחור, אדום, לבן</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T46"></span><input class="rq" type="number" id="Q46" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(46,this.value)"></div>
+<div class="row" id="R47"><div class="ri"><div class="rd">שולחן ייעודי למכונה במידות 122 * 122ס"מ</div><div class="rm">יח' &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T47"></span><input class="rq" type="number" id="Q47" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(47,this.value)"></div>
+<div class="sec">📁 קבוצה ב׳ – שירותים, הרמה וביטחון</div>
+<div class="row" id="R48"><div class="ri"><div class="rd">משקולות לעיגון ותמיכה עד 1500 ק"ג מבטון</div><div class="rm">יח' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T48"></span><input class="rq" type="number" id="Q48" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(48,this.value)"></div>
+<div class="row" id="R49"><div class="ri"><div class="rd"><b class="ht">ש/י</b> במת הרמה אנכית מספריים .גובה עבודה- 14.2 מטר.</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T49"></span><input class="rq" type="number" id="Q49" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(49,this.value)"></div>
+<div class="row" id="R50"><div class="ri"><div class="rd">מנוע עד 2 טון לטראס</div><div class="rm">יח' &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T50"></span><input class="rq" type="number" id="Q50" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(50,this.value)"></div>
+<div class="row" id="R51"><div class="ri"><div class="rd">עמודי חבלול סרט נמתח/נשלף בצבע כסוף וסרט בצבע שחור</div><div class="rm">יח' &nbsp;·&nbsp; ₪250</div></div><span class="rt" id="T51"></span><input class="rq" type="number" id="Q51" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(51,this.value)"></div>
+<div class="row" id="R52"><div class="ri"><div class="rd"><b class="ht">ש/י</b> במת הרמה מפרקית 4X4. גובה עבודה- 26.38 מטר, גובה משטח (סיפון)- 24.38 מטר,</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T52"></span><input class="rq" type="number" id="Q52" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(52,this.value)"></div>
+<div class="row" id="R53"><div class="ri"><div class="rd">דוכן נואמים מעץ/פרספקס עם סמל מדינה בחזית</div><div class="rm">יח' &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T53"></span><input class="rq" type="number" id="Q53" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(53,this.value)"></div>
+<div class="row" id="R54"><div class="ri"><div class="rd">רשת הצללה</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪55</div></div><span class="rt" id="T54"></span><input class="rq" type="number" id="Q54" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(54,this.value)"></div>
+<div class="row" id="R55"><div class="ri"><div class="rd"><b class="ht">ש/י</b> מחפרון דגם 432</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T55"></span><input class="rq" type="number" id="Q55" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(55,this.value)"></div>
+<div class="row" id="R56"><div class="ri"><div class="rd">שושנת דגלים גובה 3 מטר עם 6 זרועות</div><div class="rm">יח' &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T56"></span><input class="rq" type="number" id="Q56" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(56,this.value)"></div>
+<div class="row" id="R57"><div class="ri"><div class="rd">מטף תקני של מינימום 3 ק"ג גז הלון</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T57"></span><input class="rq" type="number" id="Q57" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(57,this.value)"></div>
+<div class="row" id="R58"><div class="ri"><div class="rd"><b class="ht">ש/י</b> עובד שינוע</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪250</div></div><span class="rt" id="T58"></span><input class="rq" type="number" id="Q58" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(58,this.value)"></div>
+<div class="row" id="R59"><div class="ri"><div class="rd">טראס 100/60</div><div class="rm">מ"א &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T59"></span><input class="rq" type="number" id="Q59" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(59,this.value)"></div>
+<div class="row" id="R60"><div class="ri"><div class="rd">עמודי חבלול דקורטיבי מפואר בצבע אחיד</div><div class="rm">יח' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T60"></span><input class="rq" type="number" id="Q60" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(60,this.value)"></div>
+<div class="row" id="R61"><div class="ri"><div class="rd"><b class="ht">ש/י</b> תא שירותים סטנדרט אמריקאי בודד</div><div class="rm">יממה &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T61"></span><input class="rq" type="number" id="Q61" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(61,this.value)"></div>
+<div class="row" id="R62"><div class="ri"><div class="rd">דוכן נואמים בחיפוי עץ עם סמל מדינה בחזית – רמת מיגון נגד ירי E</div><div class="rm">יח' &nbsp;·&nbsp; ₪7,500</div></div><span class="rt" id="T62"></span><input class="rq" type="number" id="Q62" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(62,this.value)"></div>
+<div class="row" id="R63"><div class="ri"><div class="rd">כסאות פלסטיק בצבעים אפור/לבן אחידים בסוג או בדגם (כולל הובלה, הצבה וסידור)</div><div class="rm">יח' &nbsp;·&nbsp; ₪35</div></div><span class="rt" id="T63"></span><input class="rq" type="number" id="Q63" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(63,this.value)"></div>
+<div class="row" id="R64"><div class="ri"><div class="rd"><b class="ht">ש/י</b> סולר עבור תדלוק גנרטור כמפורט בסעיפים 30/31 בלבד</div><div class="rm">ליטר &nbsp;·&nbsp; ₪17</div></div><span class="rt" id="T64"></span><input class="rq" type="number" id="Q64" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(64,this.value)"></div>
+<div class="row" id="R65"><div class="ri"><div class="rd">פלטת מיגון נגד ירי שקופה – ג.ג מערכות מיגון בעלת  רמת מיגון B</div><div class="rm">יח' &nbsp;·&nbsp; ₪18,000</div></div><span class="rt" id="T65"></span><input class="rq" type="number" id="Q65" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(65,this.value)"></div>
+<div class="row" id="R66"><div class="ri"><div class="rd">שולחן עץ בגודל 120*60 ס"מ כולל מפת בד בצבעים שונים,(כולל הובלה, הצבה וסידור)</div><div class="rm">יח' &nbsp;·&nbsp; ₪200</div></div><span class="rt" id="T66"></span><input class="rq" type="number" id="Q66" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(66,this.value)"></div>
+<div class="row" id="R67"><div class="ri"><div class="rd"><b class="ht">ש/י</b> גנרטור מושתק, עד 63*3 KVA</div><div class="rm">יממה &nbsp;·&nbsp; ₪14,000</div></div><span class="rt" id="T67"></span><input class="rq" type="number" id="Q67" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(67,this.value)"></div>
+<div class="row" id="R68"><div class="ri"><div class="rd">בלון תאורה GIANT</div><div class="rm">יח' &nbsp;·&nbsp; ₪1,000</div></div><span class="rt" id="T68"></span><input class="rq" type="number" id="Q68" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(68,this.value)"></div>
+<div class="row" id="R69"><div class="ri"><div class="rd">שולחן עץ בגודל 200*70 ס"מ כולל מפת בד בצבעים שונים (כולל הובלה, הצבה וסידור)</div><div class="rm">יח' &nbsp;·&nbsp; ₪200</div></div><span class="rt" id="T69"></span><input class="rq" type="number" id="Q69" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(69,this.value)"></div>
+<div class="row" id="R70"><div class="ri"><div class="rd"><b class="ht">ש/י</b> גנרטור מושתק, מ 80 עד 250 KVA, מושתק תלת פאזי .</div><div class="rm">יממה &nbsp;·&nbsp; ₪17,550</div></div><span class="rt" id="T70"></span><input class="rq" type="number" id="Q70" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(70,this.value)"></div>
+<div class="row" id="R71"><div class="ri"><div class="rd">ליירים במידות וגדלים שונים</div><div class="rm">מ"א &nbsp;·&nbsp; ₪450</div></div><span class="rt" id="T71"></span><input class="rq" type="number" id="Q71" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(71,this.value)"></div>
+<div class="row" id="R72"><div class="ri"><div class="rd">פח אשפה 60 ליטר כולל מכסה בצבע שחור</div><div class="rm">יח' &nbsp;·&nbsp; ₪70</div></div><span class="rt" id="T72"></span><input class="rq" type="number" id="Q72" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(72,this.value)"></div>
+<div class="row" id="R73"><div class="ri"><div class="rd"><b class="ht">ש/י</b> משאית חול 32 מ"ק כולל נהג</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T73"></span><input class="rq" type="number" id="Q73" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(73,this.value)"></div>
+<div class="row" id="R74"><div class="ri"><div class="rd">גדר תלתלית</div><div class="rm">מ"א &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T74"></span><input class="rq" type="number" id="Q74" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(74,this.value)"></div>
+<div class="row" id="R75"><div class="ri"><div class="rd">שקיות אשפה ירוקות בגודל 110*110 עובי 60 מיקרון (100 שקיות בחבילה)</div><div class="rm">חבילה &nbsp;·&nbsp; ₪1</div></div><span class="rt" id="T75"></span><input class="rq" type="number" id="Q75" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(75,this.value)"></div>
+<div class="row" id="R76"><div class="ri"><div class="rd"><b class="ht">ש/י</b> משאית כוננות</div><div class="rm">יממה &nbsp;·&nbsp; ₪20,000</div></div><span class="rt" id="T76"></span><input class="rq" type="number" id="Q76" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(76,this.value)"></div>
+<div class="row" id="R77"><div class="ri"><div class="rd">מחסום לחץ עם דלת</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T77"></span><input class="rq" type="number" id="Q77" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(77,this.value)"></div>
+<div class="row" id="R78"><div class="ri"><div class="rd">מרחב מוגן מבטון ללא מבואה, 9 מ"ר  עם דלת , חלון, תאורה פנימית ומזגן</div><div class="rm">יח' &nbsp;·&nbsp; ₪25,000</div></div><span class="rt" id="T78"></span><input class="rq" type="number" id="Q78" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(78,this.value)"></div>
+<div class="row" id="R79"><div class="ri"><div class="rd"><b class="ht">ש/י</b> חשמלאי מוסמך</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T79"></span><input class="rq" type="number" id="Q79" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(79,this.value)"></div>
+<div class="row" id="R80"><div class="ri"><div class="rd">פלטת מיגון נגד ירי שקופה – ג.ג מערכות מיגון בעלת  רמת מיגון E</div><div class="rm">יח' &nbsp;·&nbsp; ₪23,000</div></div><span class="rt" id="T80"></span><input class="rq" type="number" id="Q80" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(80,this.value)"></div>
+<div class="row" id="R81"><div class="ri"><div class="rd">כבל חשמל עבור גנרטורים מסוגים שונים.</div><div class="rm">מ"א &nbsp;·&nbsp; ₪20</div></div><span class="rt" id="T81"></span><input class="rq" type="number" id="Q81" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(81,this.value)"></div>
+<div class="row" id="R82"><div class="ri"><div class="rd"><b class="ht">ש/י</b> אוטובוס ממוגן ירי כולל נהג והתייצבות בשטח,</div><div class="rm">יממה &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T82"></span><input class="rq" type="number" id="Q82" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(82,this.value)"></div>
+<div class="row" id="R83"><div class="ri"><div class="rd">טראס 30/30</div><div class="rm">מ"א &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T83"></span><input class="rq" type="number" id="Q83" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(83,this.value)"></div>
+<div class="row" id="R84"><div class="ri"><div class="rd">כבל מאריך - חד פאזי לציוד חשמלי כגון: מאווררים, עמודי תאורה. 2 קוורצים 1500 וואט.</div><div class="rm">מ"א &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T84"></span><input class="rq" type="number" id="Q84" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(84,this.value)"></div>
+<div class="row" id="R85"><div class="ri"><div class="rd"><b class="ht">ש/י</b> רכב ממוגן ירי עד 10 נוסעים</div><div class="rm">יממה &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T85"></span><input class="rq" type="number" id="Q85" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(85,this.value)"></div>
+<div class="row" id="R86"><div class="ri"><div class="rd">טראס 50/50</div><div class="rm">מ"א &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T86"></span><input class="rq" type="number" id="Q86" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(86,this.value)"></div>
+<div class="row" id="R87"><div class="ri"><div class="rd">בדיקת מיזוג וציוד חשמלי לפני האירוע בחיבור גנרטור</div><div class="rm">קומפ' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T87"></span><input class="rq" type="number" id="Q87" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(87,this.value)"></div>
+<div class="row" id="R88"><div class="ri"><div class="rd"><b class="ht">ש/י</b> רכב ממוגן ירי 4X4 ממוגן</div><div class="rm">יממה &nbsp;·&nbsp; ₪500</div></div><span class="rt" id="T88"></span><input class="rq" type="number" id="Q88" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(88,this.value)"></div>
+<div class="row" id="R89"><div class="ri"><div class="rd">שפינג דיש לבופה מנירוסטה איכותית עם מגש לספרטיות חימום</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T89"></span><input class="rq" type="number" id="Q89" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(89,this.value)"></div>
+<div class="row" id="R90"><div class="ri"><div class="rd">גנרטור מושתק, מ 45 עד 63*3 KVA,</div><div class="rm">יח' &nbsp;·&nbsp; ₪6,500</div></div><span class="rt" id="T90"></span><input class="rq" type="number" id="Q90" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(90,this.value)"></div>
+<div class="row" id="R91"><div class="ri"><div class="rd"><b class="ht">ש/י</b> טכנאי גנרטור</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T91"></span><input class="rq" type="number" id="Q91" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(91,this.value)"></div>
+<div class="row" id="R92"><div class="ri"><div class="rd">ספרטיות חימום</div><div class="rm">יח' &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T92"></span><input class="rq" type="number" id="Q92" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(92,this.value)"></div>
+<div class="row" id="R93"><div class="ri"><div class="rd">גנרטור מושתק, מ 80 עד 250 KVA</div><div class="rm">יח' &nbsp;·&nbsp; ₪7,500</div></div><span class="rt" id="T93"></span><input class="rq" type="number" id="Q93" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(93,this.value)"></div>
+<div class="row" id="R94"><div class="ri"><div class="rd"><b class="ht">ש/י</b> מלגזה 4*4 כולל מפעיל, כולל הובלה והצבה בשטח</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T94"></span><input class="rq" type="number" id="Q94" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(94,this.value)"></div>
+<div class="row" id="R95"><div class="ri"><div class="rd">מיחם 60 כוסות</div><div class="rm">יח' &nbsp;·&nbsp; ₪10</div></div><span class="rt" id="T95"></span><input class="rq" type="number" id="Q95" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(95,this.value)"></div>
+<div class="row" id="R96"><div class="ri"><div class="rd">בד דריל</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T96"></span><input class="rq" type="number" id="Q96" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(96,this.value)"></div>
+<div class="row" id="R97"><div class="ri"><div class="rd">ארון חימום תעשייתי ל- 7 גסטרונומים</div><div class="rm">יח' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T97"></span><input class="rq" type="number" id="Q97" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(97,this.value)"></div>
+<div class="row" id="R98"><div class="ri"><div class="rd">בטונדה ניו ג'רזי מבטון מזויין ברוחב 2.65 ס"מ גובה 70 ס"מ במשקל של לפחות 7.1 טון כולל הובלה והצבה בשטח ע"פ דרישת המזמין</div><div class="rm">יח' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T98"></span><input class="rq" type="number" id="Q98" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(98,this.value)"></div>
+<div class="row" id="R99"><div class="ri"><div class="rd"><b class="ht">ש/י</b> משאית מנוף עד 60 טון  כולל מפעיל ע"פ דרישת המזמין</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪1,200</div></div><span class="rt" id="T99"></span><input class="rq" type="number" id="Q99" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(99,this.value)"></div>
+<div class="row" id="R100"><div class="ri"><div class="rd">גדר POLMIL  358 להתקנה זמנית – ללא קיבוע לקרקע.</div><div class="rm">יח' &nbsp;·&nbsp; ₪300</div></div><span class="rt" id="T100"></span><input class="rq" type="number" id="Q100" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(100,this.value)"></div>
+<div class="row" id="R101"><div class="ri"><div class="rd">מכולה 40 פיט סגורה וריקה כולל שינוע והצבה בשטח</div><div class="rm">יח' &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T101"></span><input class="rq" type="number" id="Q101" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(101,this.value)"></div>
+<div class="row" id="R102"><div class="ri"><div class="rd"><b class="ht">ש/י</b> בודק חשמל – בעל כל הרישיונות המתאימים ע"פ חוק</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T102"></span><input class="rq" type="number" id="Q102" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(102,this.value)"></div>
+<div class="row" id="R103"><div class="ri"><div class="rd">דלת גדר POLMIL 358</div><div class="rm">יח' &nbsp;·&nbsp; ₪300</div></div><span class="rt" id="T103"></span><input class="rq" type="number" id="Q103" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(103,this.value)"></div>
+<div class="row" id="R104"><div class="ri"><div class="rd">שקי חול עשויים מיוטה/פוליפרופילן במידות 14*22 אינץ'</div><div class="rm">יח' &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T104"></span><input class="rq" type="number" id="Q104" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(104,this.value)"></div>
+<div class="row" id="R105"><div class="ri"><div class="rd"><b class="ht">ש/י</b> במת הרמה אנכית מספריים. גובה עבודה- 7.6 מטר.</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T105"></span><input class="rq" type="number" id="Q105" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(105,this.value)"></div>
+<div class="row" id="R106"><div class="ri"><div class="rd">רמפה סטנדרטית למעבר רכב מעל מדרגה/מדרכה</div><div class="rm">יח' &nbsp;·&nbsp; ₪5,000</div></div><span class="rt" id="T106"></span><input class="rq" type="number" id="Q106" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(106,this.value)"></div>
+<div class="row" id="R107"><div class="ri"><div class="rd">משטח לרב"ח (ריבוע בידוק)</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪100</div></div><span class="rt" id="T107"></span><input class="rq" type="number" id="Q107" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(107,this.value)"></div>
+<div class="row" id="R108"><div class="ri"><div class="rd"><b class="ht">ש/י</b> תא שירותים זוגי נגרר ממוזג הכולל כיור + סבונייה, מיכל הדחה עם מים, תאורה וחיבור</div><div class="rm">יממה &nbsp;·&nbsp; ₪5,000</div></div><span class="rt" id="T108"></span><input class="rq" type="number" id="Q108" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(108,this.value)"></div>
+<div class="row" id="R109"><div class="ri"><div class="rd">שמשונית</div><div class="rm">מ"ר &nbsp;·&nbsp; ₪5</div></div><span class="rt" id="T109"></span><input class="rq" type="number" id="Q109" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(109,this.value)"></div>
+<div class="row" id="R110"><div class="ri"><div class="rd">שולחן פלסטיק (חלק) עם רגלי אלומיניום בצבע אחיד (שחור/אפור)</div><div class="rm">יח' &nbsp;·&nbsp; ₪50</div></div><span class="rt" id="T110"></span><input class="rq" type="number" id="Q110" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(110,this.value)"></div>
+<div class="row" id="R111"><div class="ri"><div class="rd"><b class="ht">ש/י</b> משאית מנוף 100 עד 250 טון  כולל מפעיל ע"פ דרישת המזמין</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪1,200</div></div><span class="rt" id="T111"></span><input class="rq" type="number" id="Q111" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(111,this.value)"></div>
+<div class="row" id="R112"><div class="ri"><div class="rd">מנהרה מתנפחת  5X10</div><div class="rm">יח' &nbsp;·&nbsp; ₪18,900</div></div><span class="rt" id="T112"></span><input class="rq" type="number" id="Q112" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(112,this.value)"></div>
+<div class="row" id="R113"><div class="ri"><div class="rd"><b class="ht">ש/י</b> גוררי תאורה (כולל מפעיל) וכולל גנרטור</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪1,000</div></div><span class="rt" id="T113"></span><input class="rq" type="number" id="Q113" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(113,this.value)"></div>
+<div class="row" id="R114"><div class="ri"><div class="rd">יחידת סינכרו לגנרטור</div><div class="rm">יח' &nbsp;·&nbsp; ₪5,500</div></div><span class="rt" id="T114"></span><input class="rq" type="number" id="Q114" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(114,this.value)"></div>
+<div class="row" id="R115"><div class="ri"><div class="rd"><b class="ht">ש/י</b> משאית עם קבינה ל 4 אנשים + ארגז סגור+ דלת הידראולית.</div><div class="rm">ש"ע &nbsp;·&nbsp; ₪600</div></div><span class="rt" id="T115"></span><input class="rq" type="number" id="Q115" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(115,this.value)"></div>
+<div class="row" id="R116"><div class="ri"><div class="rd">מבנה נייד לשימושים שונים</div><div class="rm">יח' &nbsp;·&nbsp; ₪15,500</div></div><span class="rt" id="T116"></span><input class="rq" type="number" id="Q116" min="0" value="" placeholder="0" inputmode="decimal" oninput="upd(116,this.value)"></div>
+</div>
+</div>
+
+<div class="card print-show" id="CARD-DELAYS">
+  <div class="chd">⏱️ תוספות מתמשך</div>
+  <div class="cbd">
+    <p style="font-size:11px;color:#6b8299;margin-bottom:9px;">הזן ימים — האחוז מחושב אוטומטית לפי נוסחאות המכרז</p>
+    <div class="dlst">
+      <div class="dc" id="DC3">
+        <div class="dp">3%</div>
+        <div class="di"><div class="dn">מתמשך קצר</div><div class="dr">3 עד 7 ימים</div><div class="dh" id="DH3"></div></div>
+        <div style="text-align:center;flex-shrink:0;">
+          <input class="dq" type="number" id="D3" min="0" max="99" placeholder="0" inputmode="numeric" oninput="updD()">
+          <div style="font-size:9px;color:#6b8299;margin-top:1px;">ימים</div>
+        </div>
+      </div>
+      <div class="dc" id="DC4">
+        <div class="dp">4%</div>
+        <div class="di"><div class="dn">מתמשך בינוני</div><div class="dr">8 עד 25 ימים</div><div class="dh" id="DH4"></div></div>
+        <div style="text-align:center;flex-shrink:0;">
+          <input class="dq" type="number" id="D4" min="0" max="99" placeholder="0" inputmode="numeric" oninput="updD()">
+          <div style="font-size:9px;color:#6b8299;margin-top:1px;">ימים</div>
+        </div>
+      </div>
+      <div class="dc" id="DC6">
+        <div class="dp">6%</div>
+        <div class="di"><div class="dn">מתמשך ארוך</div><div class="dr">26 ימים ומעלה</div><div class="dh" id="DH6"></div></div>
+        <div style="text-align:center;flex-shrink:0;">
+          <input class="dq" type="number" id="D6" min="0" max="99" placeholder="0" inputmode="numeric" oninput="updD()">
+          <div style="font-size:9px;color:#6b8299;margin-top:1px;">ימים</div>
+        </div>
+      </div>
+      <div class="dc" id="DC7">
+        <div class="dp">7%</div>
+        <div class="di"><div class="dn">אירוע גדול</div><div class="dr">מעל ₪300,000 כולל מע"מ</div></div>
+        <div style="font-size:11px;color:#6b8299;text-align:center;padding:4px;flex-shrink:0;">אוטומטי</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card print-show" id="CARD-SIGS">
+  <div class="chd">✍️ חתימות</div>
+  <div class="cbd">
+    <div class="sg">
+      <div class="sb">
+        <div class="st">חתימת מנהל המכרז</div>
+        <div class="sw2"><canvas id="CM"></canvas></div>
+        <input type="button" class="scl" value="נקה" onclick="clrSig('CM')">
+        <div class="sdt"><span>תאריך:</span><input type="date" id="SDM"></div>
+      </div>
+      <div class="sb">
+        <div class="st">חותמת וחתימת הספק</div>
+        <div class="sw2"><canvas id="CS"></canvas></div>
+        <input type="button" class="scl" value="נקה" onclick="clrSig('CS')">
+        <div class="sdt"><span>תאריך:</span><input type="date" id="SDS"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fnote">מכרז מחסומים | גרסה 7.1 | <span id="FDT"></span></div>
+</div>
+
+<div class="SC">
+<div class="card print-show" id="CARD-SUM">
+  <div class="chd">🧮 סיכום כספי</div>
+  <div class="cbd">
+    <div class="can-box">
+      <div class="ci">⚠️</div>
+      <div class="ct"><h4>ביטול בתוך 12 שעות</h4><p>50% מהסכום הכולל</p></div>
+      <div class="ca" id="SCA">₪ 0</div>
+    </div>
+    <div class="srow"><span class="sl">ציוד והתקנות</span><span class="sv" id="SST">₪ 0</span></div>
+    <div class="srow"><span class="sl">חיוב שעות / ימים</span><span class="sv bl" id="SHR">₪ 0</span></div>
+    <div class="srow"><span class="sl">סה"כ לפני מע"מ</span><span class="sv" id="SBV">₪ 0</span></div>
+    <div class="srow"><span class="sl">תוספת מתמשך</span><span class="sv ac" id="SDL">₪ 0</span></div>
+    <div class="srow" id="ROW7" style="display:none"><span class="sl">תוספת אירוע גדול 7%</span><span class="sv ac" id="SL7">₪ 0</span></div>
+    <div class="srow"><span class="sl">סה"כ לאחר תוספות</span><span class="sv bl" id="SCT">₪ 0</span></div>
+    <div class="srow"><span class="sl">מע"מ 18%</span><span class="sv" id="SVT">₪ 0</span></div>
+    <div class="tot-box">
+      <div class="tl">סה"כ כולל מע"מ <span class="vn">ללא הצמדות</span></div>
+      <div class="tv" id="STOT">₪ 0</div>
+    </div>
+    <div class="sel-box">
+      <div class="sel-hd">📌 פריטים נבחרים</div>
+      <div class="sel-bd" id="SSEL"><em style="color:#6b8299;font-size:13px;">טרם נבחרו פריטים</em></div>
+    </div>
+  </div>
+  <div class="btns">
+    <input type="button" class="b1" value="🖨️ הדפס / PDF" onclick="doPrint()">
+    <input type="button" class="b2" value="📊 CSV" onclick="xcsv()">
+    <input type="button" class="b3" value="🗑️ נקה הכל" onclick="clrAll()">
+  </div>
+</div>
+
+<div class="card no-print" id="CARD-SEND" style="margin-bottom:80px;">
+  <div class="chd">📤 שיתוף לספק</div>
+  <div class="cbd">
+    <div class="wf"><div class="wn ok">1</div><div class="wd"><b>מלא פרטים וכמויות</b>הסיכום מתעדכן אוטומטית</div></div>
+    <div class="wf"><div class="wn ok">2</div><div class="wd"><b>חתום באצבע</b>בשדה החתימה</div></div>
+    <div class="wf"><div class="wn">3</div><div class="wd"><b>שלח לספק</b>נפתח דף מוכן לשיתוף / PDF</div></div>
+    <input type="button" class="bsend" value="📤 שלח לספק לחתימה" onclick="snd()">
+  </div>
+</div>
+</div>
+</div>
+
+<div id="SB" style="display:none">
+  <div><div class="bl2">סה"כ כולל מע"מ</div><div class="bt" id="SBT">₪ 0</div></div>
+  <div class="bc" id="SBC">0 פריטים</div>
+</div>
+
+
+<!-- MERKAZ PORTAL -->
+<div id="merkazPortal" style="display:none;position:fixed;inset:0;z-index:8000;background:#e6eff8;font-family:Arial,sans-serif;direction:rtl;overflow-y:auto;">
+  <div style="background:linear-gradient(135deg,#0d1b2a,#1b3a5c,#2d5f8a);color:#fff;padding:10px 13px;display:flex;align-items:center;gap:9px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.3);">
+    <div style="width:34px;height:34px;background:rgba(255,255,255,.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">📦</div>
+    <div><div style="font-size:14px;font-weight:bold;">מרכז הזמנות <span id="mkzBadge" style="display:none;background:#f5a623;color:#0d1b2a;font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;margin-right:6px;vertical-align:middle;"></span></div><div style="font-size:10px;color:rgba(255,255,255,.6);">הזמנות ממתינות לחתימה</div></div>
+    <button onclick="logoutMerkaz()" style="margin-right:auto;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:7px;padding:5px 11px;font-family:inherit;font-size:12px;cursor:pointer;touch-action:manipulation;">← חזרה למסך הראשי</button>
+  </div>
+  <div style="max-width:680px;margin:0 auto;padding:12px 9px;display:flex;flex-direction:column;gap:10px;">
+    <div style="background:#fff;border-radius:10px;border:1px solid #c8d8e8;box-shadow:0 1px 5px rgba(0,0,0,.07);">
+      <div style="background:linear-gradient(90deg,#1b3a5c,#2d5f8a);color:#fff;padding:9px 12px;font-size:13px;font-weight:bold;border-radius:10px 10px 0 0;">⏳ ממתינות לחתימה</div>
+      <div id="pendingList" style="padding:12px;"></div>
+    </div>
+    <div style="background:#fff;border-radius:10px;border:1px solid #27ae60;box-shadow:0 1px 5px rgba(0,0,0,.07);">
+      <div style="background:linear-gradient(90deg,#1a5c35,#27ae60);color:#fff;padding:9px 12px;font-size:13px;font-weight:bold;border-radius:10px 10px 0 0;">✅ הזמנות חתומות</div>
+      <div id="signedListMerkaz" style="padding:12px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN MODAL -->
+<div id="signModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.55);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:13px;padding:20px;width:92%;max-width:480px;max-height:90vh;overflow-y:auto;direction:rtl;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="font-size:15px;font-weight:bold;color:#1b3a5c;margin:0;">✍️ חתימת ספק</h3><button onclick="closeSM()" style="background:#f0f4f8;border:none;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;touch-action:manipulation;">✕ סגור</button></div>
+    <div style="font-size:11px;color:#6b8299;margin-bottom:6px;">חתום באצבע בתיבה:</div>
+    <div style="padding:5px;background:#fafcff;border:1px solid #c8d8e8;border-radius:7px;">
+      <canvas id="SC" style="display:block;width:100%;height:115px;background:#fff;border:1px dashed #c8d8e8;border-radius:6px;touch-action:none;cursor:crosshair;"></canvas>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:#6b8299;">תאריך:</div>
+    <input type="date" id="supSignDate" style="width:100%;padding:8px;border:1.5px solid #c8d8e8;border-radius:7px;font-size:13px;margin-top:4px;font-family:inherit;box-sizing:border-box;">
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button onclick="clrSC()" style="flex:1;padding:11px;border:1px solid #fca5a5;border-radius:8px;background:#fff0f0;color:#e74c3c;font-family:inherit;font-size:13px;font-weight:bold;cursor:pointer;touch-action:manipulation;">נקה</button>
+      <button onclick="closeSM()" style="flex:1;padding:11px;border:none;border-radius:8px;background:#f0f4f8;color:#1b3a5c;font-family:inherit;font-size:13px;font-weight:bold;cursor:pointer;touch-action:manipulation;">ביטול</button>
+      <button onclick="confirmSign()" style="flex:2;padding:11px;border:none;border-radius:8px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;font-family:inherit;font-size:13px;font-weight:bold;cursor:pointer;touch-action:manipulation;">✅ אשר ושלח</button>
+    </div>
+  </div>
+</div>
+
+<!-- INBOX MODAL -->
+<div id="inboxModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.55);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:13px;width:96%;max-width:700px;max-height:92vh;overflow-y:auto;direction:rtl;">
+    <div style="background:linear-gradient(90deg,#1b3a5c,#2d5f8a);color:#fff;padding:12px 14px;border-radius:13px 13px 0 0;display:flex;align-items:center;gap:8px;">
+      <span style="flex:1;font-size:14px;font-weight:bold;">📥 הזמנות חתומות שהתקבלו</span>
+      <button onclick="closeInbox()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:6px;padding:5px 11px;font-family:inherit;font-size:12px;cursor:pointer;touch-action:manipulation;">✕ סגור</button>
+    </div>
+    <div id="inboxList" style="padding:14px;"></div>
+  </div>
+</div>
+
+
+<!-- PENDING MODAL (tender portal) -->
+<div id="pendingModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.55);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:13px;width:96%;max-width:700px;max-height:92vh;overflow-y:auto;direction:rtl;">
+    <div style="background:linear-gradient(90deg,#7a5200,#c47f00);color:#fff;padding:12px 14px;border-radius:13px 13px 0 0;display:flex;align-items:center;gap:8px;">
+      <span style="flex:1;font-size:14px;font-weight:bold;">⏳ הזמנות ממתינות לחתימת ספק</span>
+      <button onclick="closePendingModal()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:6px;padding:5px 11px;font-family:inherit;font-size:12px;cursor:pointer;touch-action:manipulation;">✕ סגור</button>
+    </div>
+    <div id="pendingModalList" style="padding:14px;"></div>
+  </div>
+</div>
+
+<script>
+var _portal = 'tender';
+
+function selPortal(p) {
+  _portal = p;
+  var bt = document.getElementById('pbTender');
+  var bm = document.getElementById('pbMerkaz');
+  if (bt) { bt.style.border = p==='tender'?'2.5px solid #1b3a5c':'2.5px solid #c8d8e8'; bt.style.background = p==='tender'?'#e8f0fb':'#f5f9fd'; }
+  if (bm) { bm.style.border = p==='merkaz'?'2.5px solid #1b3a5c':'2.5px solid #c8d8e8'; bm.style.background = p==='merkaz'?'#e8f0fb':'#f5f9fd'; }
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+}
+
+function doLogin() {
+  var u  = document.getElementById('loginUser').value.trim().toLowerCase();
+  var pw = document.getElementById('loginPass').value.trim().toLowerCase();
+  if (_portal==='tender' && u==='mahsomim' && pw==='tender') {
+    sessionStorage.setItem('auth','tender');
+    document.getElementById('loginScreen').style.display = 'none';
+    showTenderPortal();
+  } else if (_portal==='merkaz' && u==='merkaz' && pw==='hazmanot') {
+    sessionStorage.setItem('auth','merkaz');
+    document.getElementById('loginScreen').style.display = 'none';
+    showMerkazPortal();
+  } else {
+    document.getElementById('loginErr').textContent = 'שם משתמש או סיסמה שגויים';
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+function showTenderPortal() {
+  var mp = document.getElementById('merkazPortal'); if (mp) mp.style.display = 'none';
+  var pg = document.getElementById('mainPage');      if (pg) pg.style.display  = '';
+  var hd = document.getElementById('mainHeader');    if (hd) hd.style.display  = '';
+  var sb = document.getElementById('SB');            if (sb) sb.style.display  = '';
+  updateBadges();
+}
+
+function showMerkazPortal() {
+  var mp = document.getElementById('merkazPortal'); if (mp) mp.style.display = 'block';
+  var pg = document.getElementById('mainPage');      if (pg) pg.style.display  = 'none';
+  var hd = document.getElementById('mainHeader');    if (hd) hd.style.display  = 'none';
+  var sb = document.getElementById('SB');            if (sb) sb.style.display  = 'none';
+  loadPendingOrders();
+  loadSignedMerkaz();
+}
+
+function _goTender()  { showTenderPortal(); }
+function _goMerkaz()  { showMerkazPortal(); }
+
+function logoutTender() {
+  sessionStorage.removeItem('auth');
+  var pg = document.getElementById('mainPage');   if (pg) pg.style.display = 'none';
+  var hd = document.getElementById('mainHeader'); if (hd) hd.style.display = 'none';
+  var sb = document.getElementById('SB');    if (sb) sb.style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+}
+
+function logoutMerkaz() {
+  sessionStorage.removeItem('auth');
+  var mp = document.getElementById('merkazPortal'); if (mp) mp.style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginErr').textContent = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  var ls = document.getElementById('loginScreen');
+  if (e.key === 'Enter' && ls && ls.style.display !== 'none') doLogin();
+});
+
+window.addEventListener('message', function(e) {
+  if (e.data === 'goMerkaz') {
+    sessionStorage.setItem('auth','merkaz');
+    document.getElementById('loginScreen').style.display = 'none';
+    showMerkazPortal();
+  }
+});
+
+
+/* Restore session on load */
+(function(){
+  var auth = sessionStorage.getItem('auth');
+  if (auth === 'tender') {
+    document.getElementById('loginScreen').style.display = 'none';
+    showTenderPortal();
+  } else if (auth === 'merkaz') {
+    document.getElementById('loginScreen').style.display = 'none';
+    showMerkazPortal();
+  }
+})();
+;
+
+
+var ITEMS=[{"id": 1, "s": 1, "desc": "מחסום באורך 200 ס\"מ, גובה 120 ס\"מ", "unit": "יח'", "price": 60, "hourly": false}, {"id": 2, "s": 1, "desc": "מדרגות למעבר קהל", "unit": "מטר גובה", "price": 10, "hourly": false}, {"id": 3, "s": 1, "desc": "דלת מובנית בגדר מודולרית", "unit": "יח'", "price": 10, "hourly": false}, {"id": 4, "s": 1, "desc": "מחסום באורך 200 ס\"מ, גובה 120 ס\"מ כולל גלגלים ובלמים", "unit": "יח'", "price": 70, "hourly": false}, {"id": 5, "s": 1, "desc": "גזיבו דגם א'", "unit": "יח'", "price": 450, "hourly": false}, {"id": 6, "s": 1, "desc": "דשא סינטטי", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 7, "s": 1, "desc": "מחסום לחץ בצבע שחור או כסוף", "unit": "יח'", "price": 250, "hourly": false}, {"id": 8, "s": 1, "desc": "דלת עץ הכוללת משקוף ואפשרות נעילה כולל התקנה באתר המזמין", "unit": "יח'", "price": 50, "hourly": false}, {"id": 9, "s": 1, "desc": "גוף תאורה כולל התקנה פלורסנטי/לד מוגן מים בהספק 2*36 ואט לפחות.", "unit": "יח'", "price": 150, "hourly": false}, {"id": 10, "s": 1, "desc": "מחסום באורך 200 ס\"מ, גובה 90 ס\"מ", "unit": "יח'", "price": 70, "hourly": false}, {"id": 11, "s": 1, "desc": "במות מיוחדות  MegaDeck HD+  ליצירת דרך זמנית גם בתנאי קרקע רכה ורטובה במיוחד.", "unit": "מ\"ר", "price": 20, "hourly": false}, {"id": 12, "s": 1, "desc": "שולחן ייעודי למכונה במידות 70 * 120 ס\"מובגובה", "unit": "יח'", "price": 400, "hourly": false}, {"id": 13, "s": 1, "desc": "משטחי SignaRoad", "unit": "מ\"ר", "price": 10, "hourly": false}, {"id": 14, "s": 1, "desc": "גדר מודולרית ניידת גובה 2.02 מטרים, אורך 3.45 מטרים, כולל בסיס ועיגונים", "unit": "יח'", "price": 210, "hourly": false}, {"id": 15, "s": 1, "desc": "תא שירותים סטנדרט אמריקאי בודד", "unit": "יח'", "price": 500, "hourly": false}, {"id": 16, "s": 1, "desc": "בד יוטה", "unit": "מ\"ר", "price": 85, "hourly": false}, {"id": 17, "s": 1, "desc": "גזיבו דגם ב'", "unit": "יח'", "price": 450, "hourly": false}, {"id": 18, "s": 1, "desc": "פיגום בגבהים משתנים", "unit": "קו\"ב", "price": 650, "hourly": false}, {"id": 19, "s": 1, "desc": "מדרגות תיקניות הניתנות לניוד באורכים שונים", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 20, "s": 1, "desc": "מצלמה BOX AXIS 4K", "unit": "יח'", "price": 1500, "hourly": false}, {"id": 21, "s": 1, "desc": "מקפיא שוכב, בנפח 400 ליטר", "unit": "יח'", "price": 300, "hourly": false}, {"id": 22, "s": 1, "desc": "במות בגבהים משתנים", "unit": "מ\"ר", "price": 100, "hourly": false}, {"id": 23, "s": 1, "desc": "כבל CAT 7A", "unit": "מ\"א", "price": 20, "hourly": false}, {"id": 24, "s": 1, "desc": "מקרר עומד בעל דלת זכוכית", "unit": "יח'", "price": 300, "hourly": false}, {"id": 25, "s": 1, "desc": "לוחות עץ בירג'", "unit": "יח'", "price": 5, "hourly": false}, {"id": 26, "s": 1, "desc": "מערכת הקלטה דיגיטאלית  עד 16 מצלמות", "unit": "יח'", "price": 7500, "hourly": false}, {"id": 27, "s": 1, "desc": "עמוד תאורה + 2 קוורצים 1500 וואט", "unit": "יח'", "price": 750, "hourly": false}, {"id": 28, "s": 1, "desc": "אוהל בגודל החל מ- 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן ללא מיזוג", "unit": "מ\"ר", "price": 100, "hourly": false}, {"id": 29, "s": 1, "desc": "מסך 24'", "unit": "יח'", "price": 900, "hourly": false}, {"id": 30, "s": 1, "desc": "קוליסות עומדות לשימושים שונים", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 31, "s": 1, "desc": "אוהל בגודל החל מ 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן כולל מערכת מיזוג אויר/קירור מאושרת לשימוש", "unit": "מ\"ר", "price": 150, "hourly": false}, {"id": 32, "s": 1, "desc": "בניית תא הלבשה עשוי מעץ בגובה 2 מטר", "unit": "יח'", "price": 15, "hourly": false}, {"id": 33, "s": 1, "desc": "תורן בגובה 3 מטר כולל דגל המדינה", "unit": "יח'", "price": 10, "hourly": false}, {"id": 34, "s": 1, "desc": "אוהל בגודל החל מ 9 מטר רבוע ועד 2,500 מטר רבוע, בעל תו תקן, אטום, בצבע לבן כולל מערכת חימום מאושרת לשימוש", "unit": "מ\"ר", "price": 120, "hourly": false}, {"id": 35, "s": 1, "desc": "מזגן נייד תעשייתי", "unit": "יח'", "price": 500, "hourly": false}, {"id": 36, "s": 1, "desc": "שושנת דגלים גובה 1 מטר עם 6 זרועות המחזיקות 6 תרנים בגובה מטר מעוגנות לקרקע", "unit": "יח'", "price": 50, "hourly": false}, {"id": 37, "s": 1, "desc": "שמשיות גדולות בקוטר 3 מטר רבוע בצבע לבן, שמנת, כחול כולל בסיס ועיגונים נדרשים", "unit": "יח'", "price": 500, "hourly": false}, {"id": 38, "s": 1, "desc": "בזנ\"ט כולל הצבה והתקנה ע\"פ דרישת המזמין", "unit": "יח'", "price": 1, "hourly": false}, {"id": 39, "s": 1, "desc": "כסאות מהודרים בצבע שחור אחידים בסוג ובדגם", "unit": "יח'", "price": 10, "hourly": false}, {"id": 40, "s": 1, "desc": "רשת דייג", "unit": "מ\"ר", "price": 10, "hourly": false}, {"id": 41, "s": 1, "desc": "גזיבו דגם ג'", "unit": "יח'", "price": 450, "hourly": false}, {"id": 42, "s": 1, "desc": "שולחנות סטול בר אחידים בסוג ובדגם", "unit": "יח'", "price": 10, "hourly": false}, {"id": 43, "s": 1, "desc": "בד לבד/שטיח כולל התקנה בצבעים אדום/כחול/אפור/חום/שחור/לבן", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 44, "s": 1, "desc": "תא שירותים זוגי נגרר ממוזג הכולל כיור + סבונייה, מיכל הדחה עם מים, תאורה וחיבור למקור מתח עצמאי", "unit": "יח'", "price": 25000, "hourly": false}, {"id": 45, "s": 1, "desc": "מאוררים תעשייתי שקט 24 אינץ'", "unit": "יח'", "price": 200, "hourly": false}, {"id": 46, "s": 1, "desc": "בד וויסטרה לכיסוי כולל התקנה בצבעים כחול, שחור, אדום, לבן", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 47, "s": 1, "desc": "שולחן ייעודי למכונה במידות 122 * 122ס\"מ", "unit": "יח'", "price": 500, "hourly": false}, {"id": 48, "s": 2, "desc": "משקולות לעיגון ותמיכה עד 1500 ק\"ג מבטון", "unit": "יח'", "price": 100, "hourly": false}, {"id": 49, "s": 2, "desc": "במת הרמה אנכית מספריים .גובה עבודה- 14.2 מטר.", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 50, "s": 2, "desc": "מנוע עד 2 טון לטראס", "unit": "יח'", "price": 50, "hourly": false}, {"id": 51, "s": 2, "desc": "עמודי חבלול סרט נמתח/נשלף בצבע כסוף וסרט בצבע שחור", "unit": "יח'", "price": 250, "hourly": false}, {"id": 52, "s": 2, "desc": "במת הרמה מפרקית 4X4. גובה עבודה- 26.38 מטר, גובה משטח (סיפון)- 24.38 מטר,", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 53, "s": 2, "desc": "דוכן נואמים מעץ/פרספקס עם סמל מדינה בחזית", "unit": "יח'", "price": 500, "hourly": false}, {"id": 54, "s": 2, "desc": "רשת הצללה", "unit": "מ\"ר", "price": 55, "hourly": false}, {"id": 55, "s": 2, "desc": "מחפרון דגם 432", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 56, "s": 2, "desc": "שושנת דגלים גובה 3 מטר עם 6 זרועות", "unit": "יח'", "price": 50, "hourly": false}, {"id": 57, "s": 2, "desc": "מטף תקני של מינימום 3 ק\"ג גז הלון", "unit": "יח'", "price": 10, "hourly": false}, {"id": 58, "s": 2, "desc": "עובד שינוע", "unit": "ש\"ע", "price": 250, "hourly": true}, {"id": 59, "s": 2, "desc": "טראס 100/60", "unit": "מ\"א", "price": 5, "hourly": false}, {"id": 60, "s": 2, "desc": "עמודי חבלול דקורטיבי מפואר בצבע אחיד", "unit": "יח'", "price": 100, "hourly": false}, {"id": 61, "s": 2, "desc": "תא שירותים סטנדרט אמריקאי בודד", "unit": "יממה", "price": 50, "hourly": true}, {"id": 62, "s": 2, "desc": "דוכן נואמים בחיפוי עץ עם סמל מדינה בחזית – רמת מיגון נגד ירי E", "unit": "יח'", "price": 7500, "hourly": false}, {"id": 63, "s": 2, "desc": "כסאות פלסטיק בצבעים אפור/לבן אחידים בסוג או בדגם (כולל הובלה, הצבה וסידור)", "unit": "יח'", "price": 35, "hourly": false}, {"id": 64, "s": 2, "desc": "סולר עבור תדלוק גנרטור כמפורט בסעיפים 30/31 בלבד", "unit": "ליטר", "price": 17, "hourly": true}, {"id": 65, "s": 2, "desc": "פלטת מיגון נגד ירי שקופה – ג.ג מערכות מיגון בעלת  רמת מיגון B", "unit": "יח'", "price": 18000, "hourly": false}, {"id": 66, "s": 2, "desc": "שולחן עץ בגודל 120*60 ס\"מ כולל מפת בד בצבעים שונים,(כולל הובלה, הצבה וסידור)", "unit": "יח'", "price": 200, "hourly": false}, {"id": 67, "s": 2, "desc": "גנרטור מושתק, עד 63*3 KVA", "unit": "יממה", "price": 14000, "hourly": true}, {"id": 68, "s": 2, "desc": "בלון תאורה GIANT", "unit": "יח'", "price": 1000, "hourly": false}, {"id": 69, "s": 2, "desc": "שולחן עץ בגודל 200*70 ס\"מ כולל מפת בד בצבעים שונים (כולל הובלה, הצבה וסידור)", "unit": "יח'", "price": 200, "hourly": false}, {"id": 70, "s": 2, "desc": "גנרטור מושתק, מ 80 עד 250 KVA, מושתק תלת פאזי .", "unit": "יממה", "price": 17550, "hourly": true}, {"id": 71, "s": 2, "desc": "ליירים במידות וגדלים שונים", "unit": "מ\"א", "price": 450, "hourly": false}, {"id": 72, "s": 2, "desc": "פח אשפה 60 ליטר כולל מכסה בצבע שחור", "unit": "יח'", "price": 70, "hourly": false}, {"id": 73, "s": 2, "desc": "משאית חול 32 מ\"ק כולל נהג", "unit": "ש\"ע", "price": 100, "hourly": true}, {"id": 74, "s": 2, "desc": "גדר תלתלית", "unit": "מ\"א", "price": 5, "hourly": false}, {"id": 75, "s": 2, "desc": "שקיות אשפה ירוקות בגודל 110*110 עובי 60 מיקרון (100 שקיות בחבילה)", "unit": "חבילה", "price": 1, "hourly": false}, {"id": 76, "s": 2, "desc": "משאית כוננות", "unit": "יממה", "price": 20000, "hourly": true}, {"id": 77, "s": 2, "desc": "מחסום לחץ עם דלת", "unit": "יח'", "price": 10, "hourly": false}, {"id": 78, "s": 2, "desc": "מרחב מוגן מבטון ללא מבואה, 9 מ\"ר  עם דלת , חלון, תאורה פנימית ומזגן", "unit": "יח'", "price": 25000, "hourly": false}, {"id": 79, "s": 2, "desc": "חשמלאי מוסמך", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 80, "s": 2, "desc": "פלטת מיגון נגד ירי שקופה – ג.ג מערכות מיגון בעלת  רמת מיגון E", "unit": "יח'", "price": 23000, "hourly": false}, {"id": 81, "s": 2, "desc": "כבל חשמל עבור גנרטורים מסוגים שונים.", "unit": "מ\"א", "price": 20, "hourly": false}, {"id": 82, "s": 2, "desc": "אוטובוס ממוגן ירי כולל נהג והתייצבות בשטח,", "unit": "יממה", "price": 500, "hourly": true}, {"id": 83, "s": 2, "desc": "טראס 30/30", "unit": "מ\"א", "price": 5, "hourly": false}, {"id": 84, "s": 2, "desc": "כבל מאריך - חד פאזי לציוד חשמלי כגון: מאווררים, עמודי תאורה. 2 קוורצים 1500 וואט.", "unit": "מ\"א", "price": 10, "hourly": false}, {"id": 85, "s": 2, "desc": "רכב ממוגן ירי עד 10 נוסעים", "unit": "יממה", "price": 500, "hourly": true}, {"id": 86, "s": 2, "desc": "טראס 50/50", "unit": "מ\"א", "price": 5, "hourly": false}, {"id": 87, "s": 2, "desc": "בדיקת מיזוג וציוד חשמלי לפני האירוע בחיבור גנרטור", "unit": "קומפ'", "price": 100, "hourly": false}, {"id": 88, "s": 2, "desc": "רכב ממוגן ירי 4X4 ממוגן", "unit": "יממה", "price": 500, "hourly": true}, {"id": 89, "s": 2, "desc": "שפינג דיש לבופה מנירוסטה איכותית עם מגש לספרטיות חימום", "unit": "יח'", "price": 10, "hourly": false}, {"id": 90, "s": 2, "desc": "גנרטור מושתק, מ 45 עד 63*3 KVA,", "unit": "יח'", "price": 6500, "hourly": false}, {"id": 91, "s": 2, "desc": "טכנאי גנרטור", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 92, "s": 2, "desc": "ספרטיות חימום", "unit": "יח'", "price": 5, "hourly": false}, {"id": 93, "s": 2, "desc": "גנרטור מושתק, מ 80 עד 250 KVA", "unit": "יח'", "price": 7500, "hourly": false}, {"id": 94, "s": 2, "desc": "מלגזה 4*4 כולל מפעיל, כולל הובלה והצבה בשטח", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 95, "s": 2, "desc": "מיחם 60 כוסות", "unit": "יח'", "price": 10, "hourly": false}, {"id": 96, "s": 2, "desc": "בד דריל", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 97, "s": 2, "desc": "ארון חימום תעשייתי ל- 7 גסטרונומים", "unit": "יח'", "price": 100, "hourly": false}, {"id": 98, "s": 2, "desc": "בטונדה ניו ג'רזי מבטון מזויין ברוחב 2.65 ס\"מ גובה 70 ס\"מ במשקל של לפחות 7.1 טון כולל הובלה והצבה בשטח ע\"פ דרישת המזמין", "unit": "יח'", "price": 100, "hourly": false}, {"id": 99, "s": 2, "desc": "משאית מנוף עד 60 טון  כולל מפעיל ע\"פ דרישת המזמין", "unit": "ש\"ע", "price": 1200, "hourly": true}, {"id": 100, "s": 2, "desc": "גדר POLMIL  358 להתקנה זמנית – ללא קיבוע לקרקע.", "unit": "יח'", "price": 300, "hourly": false}, {"id": 101, "s": 2, "desc": "מכולה 40 פיט סגורה וריקה כולל שינוע והצבה בשטח", "unit": "יח'", "price": 100, "hourly": false}, {"id": 102, "s": 2, "desc": "בודק חשמל – בעל כל הרישיונות המתאימים ע\"פ חוק", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 103, "s": 2, "desc": "דלת גדר POLMIL 358", "unit": "יח'", "price": 300, "hourly": false}, {"id": 104, "s": 2, "desc": "שקי חול עשויים מיוטה/פוליפרופילן במידות 14*22 אינץ'", "unit": "יח'", "price": 5, "hourly": false}, {"id": 105, "s": 2, "desc": "במת הרמה אנכית מספריים. גובה עבודה- 7.6 מטר.", "unit": "ש\"ע", "price": 50, "hourly": true}, {"id": 106, "s": 2, "desc": "רמפה סטנדרטית למעבר רכב מעל מדרגה/מדרכה", "unit": "יח'", "price": 5000, "hourly": false}, {"id": 107, "s": 2, "desc": "משטח לרב\"ח (ריבוע בידוק)", "unit": "מ\"ר", "price": 100, "hourly": false}, {"id": 108, "s": 2, "desc": "תא שירותים זוגי נגרר ממוזג הכולל כיור + סבונייה, מיכל הדחה עם מים, תאורה וחיבור", "unit": "יממה", "price": 5000, "hourly": true}, {"id": 109, "s": 2, "desc": "שמשונית", "unit": "מ\"ר", "price": 5, "hourly": false}, {"id": 110, "s": 2, "desc": "שולחן פלסטיק (חלק) עם רגלי אלומיניום בצבע אחיד (שחור/אפור)", "unit": "יח'", "price": 50, "hourly": false}, {"id": 111, "s": 2, "desc": "משאית מנוף 100 עד 250 טון  כולל מפעיל ע\"פ דרישת המזמין", "unit": "ש\"ע", "price": 1200, "hourly": true}, {"id": 112, "s": 2, "desc": "מנהרה מתנפחת  5X10", "unit": "יח'", "price": 18900, "hourly": false}, {"id": 113, "s": 2, "desc": "גוררי תאורה (כולל מפעיל) וכולל גנרטור", "unit": "ש\"ע", "price": 1000, "hourly": true}, {"id": 114, "s": 2, "desc": "יחידת סינכרו לגנרטור", "unit": "יח'", "price": 5500, "hourly": false}, {"id": 115, "s": 2, "desc": "משאית עם קבינה ל 4 אנשים + ארגז סגור+ דלת הידראולית.", "unit": "ש\"ע", "price": 600, "hourly": true}, {"id": 116, "s": 2, "desc": "מבנה נייד לשימושים שונים", "unit": "יח'", "price": 15500, "hourly": false}];
+
+/* ── state ── */
+var Q={};
+ITEMS.forEach(function(x){Q[x.id]=0;});
+var DP=0;  /* delay percent total */
+
+/* ── format money ── */
+function f(n){
+  if(!n||isNaN(n))return '\u20aa\u202f0.00';
+  var neg=n<0; if(neg)n=-n;
+  var cents=(Math.round(n*100))%100;
+  var whole=Math.floor(Math.round(n*100)/100);
+  var s=String(whole),o='';
+  for(var i=0;i<s.length;i++){if(i>0&&(s.length-i)%3===0)o+=',';o+=s[i];}
+  return (neg?'-':'')+'\u20aa\u202f'+o+'.'+(cents<10?'0':'')+cents;
+}
+
+/* ── called by every qty input ── */
+function upd(id,v){
+  v=parseFloat(v)||0; if(v<0)v=0;
+  Q[id]=v;
+  /* find item */
+  var it=null;
+  for(var i=0;i<ITEMS.length;i++){if(ITEMS[i].id===id){it=ITEMS[i];break;}}
+  if(!it)return;
+  /* update row total label */
+  var te=document.getElementById('T'+id);
+  if(te)te.textContent=v>0?f(v*it.price):'';
+  /* highlight row */
+  var ro=document.getElementById('R'+id);
+  if(ro)ro.className='row'+(v>0?' on':'');
+  /* full recalc */
+  calc();
+}
+
+/* ── called by every delay input ── */
+function updD(){
+  var d3=parseFloat(document.getElementById('D3').value)||0;
+  var d4=parseFloat(document.getElementById('D4').value)||0;
+  var d6=parseFloat(document.getElementById('D6').value)||0;
+  /* validate ranges per Excel formulas */
+  var p3=(d3>=3&&d3<=7)?3:0;
+  var p4=(d4>=8&&d4<=25)?4:0;
+  var p6=(d6>=26)?6:0;
+  DP=p3+p4+p6;
+  /* hints */
+  var h3=document.getElementById('DH3');
+  var h4=document.getElementById('DH4');
+  var h6=document.getElementById('DH6');
+  if(h3)h3.textContent=d3>0?(p3>0?'\u2713 '+d3+' \u05d9\u05de\u05d9\u05dd, 3%':'\u26a0 \u05d1\u05d8\u05d5\u05d5\u05d7 3\u20137'):'';
+  if(h4)h4.textContent=d4>0?(p4>0?'\u2713 '+d4+' \u05d9\u05de\u05d9\u05dd, 4%':'\u26a0 \u05d1\u05d8\u05d5\u05d5\u05d7 8\u201325'):'';
+  if(h6)h6.textContent=d6>0?(p6>0?'\u2713 '+d6+' \u05d9\u05de\u05d9\u05dd, 6%':'\u26a0 26+'):'';
+  /* active cards */
+  document.getElementById('DC3').className='dc'+(p3>0?' on':'');
+  document.getElementById('DC4').className='dc'+(p4>0?' on':'');
+  document.getElementById('DC6').className='dc'+(p6>0?' on':'');
+  calc();
+}
+
+/* ── main recalc ── */
+function calc(){
+  var st=0,hr=0;
+  for(var i=0;i<ITEMS.length;i++){
+    var t=Q[ITEMS[i].id]*ITEMS[i].price;
+    if(ITEMS[i].hourly)hr+=t; else st+=t;
+  }
+  var bef=st+hr;
+  var dly=bef*DP/100;
+  var cnt=bef+dly;
+  /* 7% auto if total incl VAT > 300000 */
+  var lg=cnt*1.18>300000?7:0;
+  document.getElementById('DC7').className='dc'+(lg>0?' on':'');
+  document.getElementById('ROW7').style.display=lg>0?'flex':'none';
+  var aft=cnt*(1+lg/100);
+  var vat=aft*0.18;
+  var grd=aft+vat;
+
+  function S(id,v){var e=document.getElementById(id);if(e)e.textContent=v;}
+  S('SST',f(st));
+  S('SHR',f(hr));
+  S('SBV',f(bef));
+  S('SDL',DP>0?'+'+DP+'% = '+f(dly):'\u20aa\u202f0.00');
+  S('SL7',lg>0?'+7% = '+f(aft-cnt):'\u20aa\u202f0.00');
+  S('SCT',f(cnt));
+  S('SVT',f(vat));
+  S('STOT',f(grd));
+  S('SCA',f(grd*0.5));
+  S('SBT',f(grd));
+
+  /* selected items list */
+  var sel=[];
+  for(var i=0;i<ITEMS.length;i++)if(Q[ITEMS[i].id]>0)sel.push(ITEMS[i]);
+  S('SBC',sel.length+' \u05e4\u05e8\u05d9\u05d8\u05d9\u05dd');
+
+  var bar=document.getElementById('IBAR');
+  if(bar){bar.style.display=sel.length?'block':'none';
+    bar.textContent='\u05e1\u05d4"\u05db \u05db\u05d5\u05dc\u05dc \u05de\u05e2"\u05de: '+f(grd);}
+
+  var ss=document.getElementById('SSEL');
+  if(ss){
+    if(!sel.length){
+      ss.innerHTML='<em style="color:#6b8299;font-size:13px;">\u05d8\u05e8\u05dd \u05e0\u05d1\u05d7\u05e8\u05d5 \u05e4\u05e8\u05d9\u05d8\u05d9\u05dd</em>';
+    } else {
+      var h='';
+      for(var i=0;i<sel.length;i++){
+        var x=sel[i];
+        h+='<div class="si"><span class="sn">'+x.desc+'</span>'
+          +'<span class="sq">'+Q[x.id]+'\u00d7'+f(x.price)+'</span>'
+          +'<span class="ss">'+f(Q[x.id]*x.price)+'</span></div>';
+      }
+      ss.innerHTML=h;
+    }
+  }
+}
+
+/* ── search ── */
+function flt(t){
+  t=(t||'').toLowerCase();
+  var rows=document.querySelectorAll('.row');
+  for(var i=0;i<rows.length;i++){
+    var d=rows[i].querySelector('.rd');
+    var ok=!t||(d&&d.textContent.toLowerCase().indexOf(t)>=0);
+    rows[i].style.display=ok?'':'none';
+  }
+  var secs=document.querySelectorAll('.sec');
+  for(var i=0;i<secs.length;i++){
+    var n=secs[i].nextElementSibling,any=false;
+    while(n&&!n.classList.contains('sec')){if(n.style.display!=='none')any=true;n=n.nextElementSibling;}
+    secs[i].style.display=(any||!t)?'':'none';
+  }
+}
+
+/* ── clear all ── */
+function clrAll(){
+  if(!confirm('\u05dc\u05e0\u05e7\u05d5\u05ea \u05d0\u05ea \u05d4\u05db\u05dc?'))return;
+  for(var i=0;i<ITEMS.length;i++){
+    Q[ITEMS[i].id]=0;
+    var el=document.getElementById('Q'+ITEMS[i].id);if(el)el.value='';
+    var te=document.getElementById('T'+ITEMS[i].id);if(te)te.textContent='';
+    var ro=document.getElementById('R'+ITEMS[i].id);if(ro)ro.className='row';
+  }
+  ['D3','D4','D6'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  ['DH3','DH4','DH6'].forEach(function(id){var e=document.getElementById(id);if(e)e.textContent='';});
+  ['DC3','DC4','DC6','DC7'].forEach(function(id){var e=document.getElementById(id);if(e)e.className='dc';});
+  DP=0; calc();
+}
+
+/* ── CSV ── */
+function xcsv(){
+  var sel=[];
+  for(var i=0;i<ITEMS.length;i++)if(Q[ITEMS[i].id]>0)sel.push(ITEMS[i]);
+  if(!sel.length){alert('\u05dc\u05d0 \u05e0\u05d1\u05d7\u05e8\u05d5 \u05e4\u05e8\u05d9\u05d8\u05d9\u05dd');return;}
+  var csv=['"תיאור","יח","מחיר","כמות","סהכ"'];
+  for(var i=0;i<sel.length;i++){
+    var x=sel[i];
+    csv.push('"'+x.desc+'","'+x.unit+'",'+x.price+','+Q[x.id]+','+(Q[x.id]*x.price));
+  }
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv.join('\r\n')],{type:'text/csv;charset=utf-8'}));
+  a.download='\u05de\u05db\u05e8\u05d6.csv';
+  a.click();
+}
+
+/* ── send to supplier ── */
+function snd(){
+  var sel=[];
+  for(var i=0;i<ITEMS.length;i++)if(Q[ITEMS[i].id]>0)sel.push(ITEMS[i]);
+  var st=0,hr=0;
+  for(var i=0;i<ITEMS.length;i++){var t=Q[ITEMS[i].id]*ITEMS[i].price;if(ITEMS[i].hourly)hr+=t;else st+=t;}
+  var bef=st+hr,dly=bef*DP/100,cnt=bef+dly,lg=cnt*1.18>300000?7:0;
+  var aft=cnt*(1+lg/100),vat=aft*0.18,grd=aft+vat;
+
+  /* items table */
+  var rows='';
+  for(var i=0;i<sel.length;i++){
+    var x=sel[i];
+    var bg=i%2?'background:#f5f9fd':'';
+    rows+='<tr style="'+bg+'">'
+      +'<td style="padding:6px 8px;border-bottom:1px solid #edf2f7">'
+      +(x.hourly?'<span style="font-size:9px;background:#ddf0ff;color:#1a6fa6;padding:1px 4px;border-radius:3px">ש/י</span> ':'')+x.desc
+      +'</td>'
+      +'<td style="padding:6px 8px;border-bottom:1px solid #edf2f7;color:#6b8299">'+x.unit+'</td>'
+      +'<td style="padding:6px 8px;border-bottom:1px solid #edf2f7">'+f(x.price)+'</td>'
+      +'<td style="padding:6px 8px;border-bottom:1px solid #edf2f7;text-align:center;font-weight:bold">'+Q[x.id]+'</td>'
+      +'<td style="padding:6px 8px;border-bottom:1px solid #edf2f7;font-weight:bold">'+f(Q[x.id]*x.price)+'</td>'
+      +'</tr>';
+  }
+
+  /* delay rows — only active ones */
+  var d3v=parseFloat(document.getElementById('D3').value)||0;
+  var d4v=parseFloat(document.getElementById('D4').value)||0;
+  var d6v=parseFloat(document.getElementById('D6').value)||0;
+  var delayHtml='';
+  if(DP>0){
+    delayHtml='<h2 style="font-size:13px;color:#2d5f8a;margin:14px 0 6px;border-bottom:1px solid #c8d8e8;padding-bottom:3px">\u05ea\u05d5\u05e1\u05e4\u05d5\u05ea \u05de\u05ea\u05de\u05e9\u05da</h2>'
+      +'<table style="width:100%;border-collapse:collapse;font-size:12px;margin:6px 0">'
+      +'<thead><tr style="background:#2d5f8a;color:#fff">'
+      +'<th style="padding:6px 8px;text-align:right">\u05ea\u05d5\u05e1\u05e4\u05ea</th>'
+      +'<th style="padding:6px 8px;text-align:center">\u05d9\u05de\u05d9\u05dd</th>'
+      +'<th style="padding:6px 8px;text-align:center">\u05d0\u05d7\u05d5\u05d6</th>'
+      +'<th style="padding:6px 8px;text-align:left">\u05e1\u05db\u05d5\u05dd \u05ea\u05d5\u05e1\u05e4\u05ea</th>'
+      +'</tr></thead><tbody>';
+    if(d3v>=3&&d3v<=7)
+      delayHtml+='<tr><td style="padding:5px 8px;border-bottom:1px solid #edf2f7">\u05de\u05ea\u05de\u05e9\u05da \u05e7\u05e6\u05e8 (3\u20137 \u05d9\u05de\u05d9\u05dd)</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">'+d3v+'</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">3%</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7">'+f(bef*0.03)+'</td></tr>';
+    if(d4v>=8&&d4v<=25)
+      delayHtml+='<tr style="background:#f5f9fd"><td style="padding:5px 8px;border-bottom:1px solid #edf2f7">\u05de\u05ea\u05de\u05e9\u05da \u05d1\u05d9\u05e0\u05d5\u05e0\u05d9 (8\u201325 \u05d9\u05de\u05d9\u05dd)</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">'+d4v+'</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">4%</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7">'+f(bef*0.04)+'</td></tr>';
+    if(d6v>=26)
+      delayHtml+='<tr><td style="padding:5px 8px;border-bottom:1px solid #edf2f7">\u05de\u05ea\u05de\u05e9\u05da \u05d0\u05e8\u05d5\u05da (26+)</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">'+d6v+'</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center">6%</td>'
+        +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7">'+f(bef*0.06)+'</td></tr>';
+    if(lg>0)
+      delayHtml+='<tr style="background:#fff8e1"><td style="padding:5px 8px">\u05d0\u05d9\u05e8\u05d5\u05e2 \u05d2\u05d3\u05d5\u05dc (\u05de\u05e2\u05dc \u20aa300,000 \u05db\u05d5\u05dc\u05dc \u05de\u05e2"\u05de)</td>'
+        +'<td style="padding:5px 8px;text-align:center">\u2014</td>'
+        +'<td style="padding:5px 8px;text-align:center">7%</td>'
+        +'<td style="padding:5px 8px">'+f(aft-cnt)+'</td></tr>';
+    delayHtml+='</tbody></table>';
+  }
+
+  var evn=(document.getElementById('evName')||{value:''}).value;
+  var ord=(document.getElementById('evOrd')||{value:''}).value;
+  var esd=(document.getElementById('evStart')||{value:''}).value;
+  var eend=(document.getElementById('evEnd')||{value:''}).value;
+  var etm=(document.getElementById('evTime')||{value:''}).value;
+  var sdm=(document.getElementById('SDM')||{value:''}).value;
+
+  var html='<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">'
+    +'<meta name="viewport" content="width=device-width,initial-scale=1.0">'
+    +'<style>'
+    +'body{font-family:Arial,sans-serif;direction:rtl;padding:20px;font-size:13px;max-width:820px;margin:0 auto;color:#1a2b3c}'
+    +'h1{font-size:19px;color:#1b3a5c;margin-bottom:3px}'
+    +'h2{font-size:13px;color:#2d5f8a;margin:14px 0 6px;border-bottom:1px solid #c8d8e8;padding-bottom:3px}'
+    +'.meta{color:#6b8299;font-size:11px;margin-bottom:12px}'
+    +'table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}'
+    +'th{background:#1b3a5c;color:#fff;padding:7px 8px;text-align:right;-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+    +'td{padding:6px 8px}'
+    +'.sum-row{display:flex;justify-content:space-between;padding:6px 2px;border-bottom:1px solid #e0e8f0}'
+    +'.sum-row:last-child{border-bottom:none}'
+    +'.sum-lbl{color:#6b8299;font-size:12px}'
+    +'.sum-val{font-weight:bold;font-size:12px}'
+    +'.tot-box{background:#1b3a5c;color:#fff;border-radius:8px;padding:12px;'
+    +'display:flex;justify-content:space-between;align-items:center;margin:10px 0;'
+    +'-webkit-print-color-adjust:exact;print-color-adjust:exact}'
+    +'.cancel-box{background:#fff5f5;border:1px solid #fca5a5;border-radius:6px;'
+    +'padding:8px 10px;display:flex;justify-content:space-between;margin-bottom:8px}'
+    +'.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:50px;page-break-inside:avoid}'
+    +'.sig-box{border-top:2px solid #1b3a5c;padding-top:10px}'
+    +'.sig-title{font-size:12px;font-weight:bold;color:#1b3a5c;margin-bottom:6px}'
+    +'.sig-line{border-bottom:1px solid #999;margin:30px 0 6px}'
+    +'.sig-date{font-size:11px;color:#6b8299}'
+    +'.wa-btn{display:block;width:100%;padding:13px;background:#25d366;color:#fff;'
+    +'border:none;border-radius:9px;font-size:15px;font-weight:bold;cursor:pointer;'
+    +'text-align:center;margin-top:16px;font-family:Arial,sans-serif}'
+    +'@page{margin:15mm 12mm}'
+    +'@media print{.wa-btn{display:none!important}}'
+    +'</style></head><body>'
+    +'<div style="padding:10px 16px;background:#f0f4f8;border-bottom:1px solid #c8d8e8;direction:rtl;">'
+    +'<button onclick="window.close()" style="background:none;border:none;color:#1b3a5c;font-size:14px;font-weight:bold;cursor:pointer;padding:4px 0;font-family:Arial;direction:rtl;">'
+    +'\u2190 \u05d7\u05d6\u05d5\u05e8 \u05dc\u05e4\u05d5\u05e8\u05d8\u05dc'
+    +'</button></div>'
+
+    /* header */
+    +'<h1>\u05de\u05db\u05e8\u05d6 \u05de\u05d7\u05e1\u05d5\u05de\u05d9\u05dd \u2013 \u05d4\u05d6\u05de\u05e0\u05d4 \u05e8\u05e9\u05de\u05d9\u05ea</h1>'
+    +'<div class="meta">\u05dc\u05d7\u05ea\u05d9\u05de\u05ea \u05d4\u05e1\u05e4\u05e7 \u05d5\u05d4\u05d7\u05d6\u05e8\u05d4</div>'
+
+    /* event details */
+    +'<h2>\u05e4\u05e8\u05d8\u05d9 \u05d4\u05d0\u05d9\u05e8\u05d5\u05e2</h2>'
+    +'<table><tbody>'
+    +(evn?'<tr><td style="color:#6b8299;width:140px">\u05e9\u05dd \u05d4\u05d0\u05d9\u05e8\u05d5\u05e2</td><td><b>'+evn+'</b></td></tr>':'')
+    +(ord?'<tr><td style="color:#6b8299">\u05de\u05d6\u05de\u05d9\u05df</td><td><b>'+ord+'</b></td></tr>':'')
+    +(esd?'<tr><td style="color:#6b8299">\u05ea\u05d0\u05e8\u05d9\u05da \u05d4\u05ea\u05d9\u05d9\u05e6\u05d1\u05d5\u05ea</td><td>'+esd+(eend?' \u05e2\u05d3 '+eend:'')+'</td></tr>':'')
+    +(etm?'<tr><td style="color:#6b8299">\u05e9\u05e2\u05ea \u05d4\u05ea\u05d9\u05d9\u05e6\u05d1\u05d5\u05ea</td><td>'+etm+'</td></tr>':'')
+    +'</tbody></table>'
+
+    /* items */
+    +'<h2>\u05e4\u05e8\u05d9\u05d8\u05d9\u05dd \u05e9\u05d4\u05d5\u05d6\u05de\u05e0\u05d5</h2>'
+    +'<table><thead><tr>'
+    +'<th>\u05ea\u05d9\u05d0\u05d5\u05e8</th><th style="width:55px">\u05d9\u05d7\u05f3</th>'
+    +'<th style="width:75px;text-align:left">\u05de\u05d7\u05d9\u05e8</th>'
+    +'<th style="width:55px;text-align:center">\u05db\u05de\u05d5\u05ea</th>'
+    +'<th style="width:80px;text-align:left">\u05e1\u05d4"\u05db</th>'
+    +'</tr></thead><tbody>'+rows+'</tbody></table>'
+
+    /* delays */
+    +delayHtml
+
+    /* summary */
+    +'<h2>\u05e1\u05d9\u05db\u05d5\u05dd \u05db\u05e1\u05e4\u05d9</h2>'
+    +'<div class="cancel-box">'
+    +'<span style="font-size:12px;font-weight:bold;color:#e74c3c">\u26a0\ufe0f \u05d1\u05d9\u05d8\u05d5\u05dc \u05d1\u05ea\u05d5\u05da 12 \u05e9\u05e2\u05d5\u05ea</span>'
+    +'<span style="font-size:13px;font-weight:bold;color:#e74c3c">'+f(grd*0.5)+'</span>'
+    +'</div>'
+    +'<div class="sum-row"><span class="sum-lbl">\u05e6\u05d9\u05d5\u05d3 \u05d5\u05d4\u05ea\u05e7\u05e0\u05d5\u05ea</span><span class="sum-val">'+f(st)+'</span></div>'
+    +'<div class="sum-row"><span class="sum-lbl">\u05d7\u05d9\u05d5\u05d1 \u05e9\u05e2\u05d5\u05ea/\u05d9\u05de\u05d9\u05dd</span><span class="sum-val">'+f(hr)+'</span></div>'
+    +'<div class="sum-row"><span class="sum-lbl">\u05e1\u05d4"\u05db \u05dc\u05e4\u05e0\u05d9 \u05de\u05e2"\u05de</span><span class="sum-val">'+f(bef)+'</span></div>'
+    +(DP>0?'<div class="sum-row"><span class="sum-lbl">\u05ea\u05d5\u05e1\u05e4\u05ea \u05de\u05ea\u05de\u05e9\u05da '+DP+'%</span><span class="sum-val">'+f(dly)+'</span></div>':'')
+    +(lg>0?'<div class="sum-row"><span class="sum-lbl">\u05ea\u05d5\u05e1\u05e4\u05ea \u05d0\u05d9\u05e8\u05d5\u05e2 \u05d2\u05d3\u05d5\u05dc 7%</span><span class="sum-val">'+f(aft-cnt)+'</span></div>':'')
+    +'<div class="sum-row"><span class="sum-lbl">\u05de\u05e2"\u05de 18%</span><span class="sum-val">'+f(vat)+'</span></div>'
+    +'<div class="tot-box"><span style="color:rgba(255,255,255,.75);font-size:12px">\u05e1\u05d4"\u05db \u05db\u05d5\u05dc\u05dc \u05de\u05e2"\u05de <span style="font-size:9px;background:rgba(255,255,255,.15);border-radius:3px;padding:1px 4px">\u05dc\u05dc\u05d0 \u05d4\u05e6\u05de\u05d3\u05d5\u05ea</span></span>'
+    +'<span style="color:#fff;font-size:20px;font-weight:bold">'+f(grd)+'</span></div>'
+
+    /* signatures */
+    +(function(){
+      var ci='';
+      var cv=document.getElementById('CM');
+      if(cv){try{ci=cv.toDataURL('image/png');}catch(e){}}
+      return '<div class="sig-grid">'
+
+        /* manager — show captured image, locked */
+        +'<div class="sig-box">'
+        +'<div class="sig-title">\u05d7\u05ea\u05d9\u05de\u05ea \u05de\u05e0\u05d4\u05dc \u05d4\u05de\u05db\u05e8\u05d6</div>'
+        +(ci
+          ? '<img src="'+ci+'" style="width:100%;max-height:80px;object-fit:contain;border:1px solid #e0e8f0;border-radius:4px;background:#fff;display:block;margin:6px 0">'
+          : '<div style="border-bottom:1px solid #999;margin:30px 0 6px"></div>'
+        )
+        +'<div class="sig-date">\u05ea\u05d0\u05e8\u05d9\u05da: '+sdm+'</div>'
+        +'</div>'
+
+        /* supplier — interactive canvas */
+        +'<div class="sig-box">'
+        +'<div class="sig-title">\u05d7\u05d5\u05ea\u05de\u05ea \u05d5\u05d7\u05ea\u05d9\u05de\u05ea \u05d4\u05e1\u05e4\u05e7</div>'
+        +'<div style="padding:4px;background:#fafcff;border:1px solid #c8d8e8;border-radius:6px;margin:6px 0">'
+        +'<canvas id="supCanvas" style="display:block;width:100%;height:100px;background:#fff;touch-action:none;cursor:crosshair;border-radius:4px;"></canvas>'
+        +'</div>'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">'
+        +'<span style="font-size:10px;color:#6b8299">\u05d7\u05ea\u05d5\u05dd \u05d1\u05d0\u05e6\u05d1\u05e2</span>'
+        +'<button onclick="clrSup()" style="font-size:11px;color:#e74c3c;background:#fff0f0;border:1px solid #fca5a5;border-radius:5px;padding:3px 9px;cursor:pointer;font-family:Arial">\u05e0\u05e7\u05d4</button>'
+        +'</div>'
+        +'<div class="sig-date">\u05ea\u05d0\u05e8\u05d9\u05da: <input type="date" id="supDate" style="border:none;border-bottom:1px solid #c8d8e8;font-size:11px;background:transparent;font-family:Arial"></div>'
+        +'</div>'
+
+        +'</div>';
+    })()
+    /* WhatsApp share button */
+    +'<button class="wa-btn" onclick="shareWA()">'
+    +'\ud83d\udcf2 \u05e9\u05dc\u05d7 \u05d1\u05d5\u05d5\u05d0\u05d8\u05e1\u05d0\u05e4'
+    +'</button>'
+    +'<button onclick="sendBack()" style="display:block;width:100%;padding:13px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:bold;cursor:pointer;text-align:center;margin-top:10px;font-family:Arial">'
+    +'\ud83d\udce6 \u05d4\u05e2\u05d1\u05e8 \u05dc\u05de\u05e8\u05db\u05d6 \u05d4\u05d6\u05de\u05e0\u05d5\u05ea'
+    +'</button>'
+
+    +'<scr'+'ipt>'
+    +'function shareWA(){'
+    +'  var html=document.documentElement.outerHTML;'
+    +'  var blob=new Blob([html],{type:"text/html;charset=utf-8"});'
+    +'  var file=new File([blob],"\u05de\u05db\u05e8\u05d6_\u05dc\u05d7\u05ea\u05d9\u05de\u05d4.html",{type:"text/html"});'
+    +'  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]}))'
+    +'    navigator.share({files:[file],title:"\u05de\u05db\u05e8\u05d6 \u05de\u05d7\u05e1\u05d5\u05de\u05d9\u05dd",text:"\u05d0\u05e0\u05d0 \u05d7\u05ea\u05d5\u05dd \u05d5\u05d4\u05d7\u05d6\u05e8"})'
+    +'    .catch(function(){fallback(blob);});'
+    +'  else fallback(blob);'
+    +'}'
+    +'function fallback(blob){'
+    +'  var a=document.createElement("a");'
+    +'  a.href=URL.createObjectURL(blob);'
+    +'  a.download="\u05de\u05db\u05e8\u05d6_\u05dc\u05d7\u05ea\u05d9\u05de\u05d4.html";'
+    +'  a.click();'
+    +'  setTimeout(function(){alert("\u05d4\u05e7\u05d5\u05d1\u05e5 \u05d4\u05d5\u05e8\u05d3 \u2014 \u05e9\u05dc\u05d7 \u05d0\u05d5\u05ea\u05d5 \u05d3\u05e8\u05da WhatsApp");},300);'
+    +'}'
+    +'</'+'script>'
+    +'</body></html>';
+
+  try{var _oi='ord_'+Date.now(),_od={id:_oi,name:evn||'הזמנה',orderer:ord,date:esd,created:new Date().toISOString(),html:html};
+    var _po=JSON.parse(localStorage.getItem('pendingOrders')||'[]');
+    _po.push(_od);localStorage.setItem('pendingOrders',JSON.stringify(_po));
+    updateBadges();}catch(_e){}
+  var w=window.open('','_blank');
+  if(w){w.document.write(html);w.document.close();}
+  else{
+    /* popup blocked — download directly */
+    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    var file=new File([blob],'\u05de\u05db\u05e8\u05d6_\u05dc\u05e1\u05e4\u05e7.html',{type:'text/html'});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({files:[file],title:'\u05de\u05db\u05e8\u05d6 \u05de\u05d7\u05e1\u05d5\u05de\u05d9\u05dd'}).catch(function(){});
+    } else {
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='\u05de\u05db\u05e8\u05d6_\u05dc\u05e1\u05e4\u05e7.html';
+      a.click();
+    }
+  }
+}
+
+/* ── signature canvas ── */
+function initSig(id){
+  var cv=document.getElementById(id);
+  if(!cv||cv._rdy)return;
+  cv._rdy=true;
+  var ratio=window.devicePixelRatio||1;
+  var W=cv.offsetWidth||cv.parentElement.offsetWidth||200;
+  var H=115;
+  cv.width=Math.round(W*ratio);
+  cv.height=Math.round(H*ratio);
+  var ctx=cv.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(ratio,ratio);
+  ctx.strokeStyle='#1b3a5c';
+  ctx.lineWidth=2.5;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  cv._ctx=ctx;
+  cv._W=W; cv._H=H;
+  /* fill white + hint */
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.save(); ctx.globalAlpha=.12; ctx.textAlign='center';
+  ctx.font='13px Arial';ctx.fillStyle='#1b3a5c';
+  ctx.fillText('\u05d7\u05ea\u05d5\u05dd \u05db\u05d0\u05df \u05d1\u05d0\u05e6\u05d1\u05e2',W/2,62);
+  ctx.restore();
+
+  var down=false,lx=0,ly=0;
+  function pos(e){
+    var r=cv.getBoundingClientRect();
+    var s=e.touches?e.touches[0]:e;
+    return{x:(s.clientX-r.left)*(cv._W/r.width),
+           y:(s.clientY-r.top)*(cv._H/r.height)};
+  }
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault(); down=true;
+    var p=pos(e); lx=p.x; ly=p.y;
+  },{passive:false});
+  cv.addEventListener('pointermove',function(e){
+    if(!down)return; e.preventDefault();
+    var p=pos(e);
+    cv._ctx.beginPath(); cv._ctx.moveTo(lx,ly); cv._ctx.lineTo(p.x,p.y); cv._ctx.stroke();
+    lx=p.x; ly=p.y;
+  },{passive:false});
+  cv.addEventListener('pointerup',  function(){down=false;});
+  cv.addEventListener('pointercancel',function(){down=false;});
+}
+
+function clrSig(id){
+  var cv=document.getElementById(id); if(!cv)return;
+  cv._rdy=false;
+  setTimeout(function(){initSig(id);},20);
+}
+
+
+/* ── print ── */
+function doPrint(){
+  /* build print-only selected items table */
+  var sel=[];
+  for(var i=0;i<ITEMS.length;i++)if(Q[ITEMS[i].id]>0)sel.push(ITEMS[i]);
+  var pi=document.getElementById('PRINT-ITEMS');
+  if(pi){
+    if(!sel.length){
+      pi.innerHTML='<p style="color:#6b8299;padding:10px;">לא נבחרו פריטים</p>';
+    } else {
+      var st=0,hr=0;
+      for(var i=0;i<ITEMS.length;i++){var t=Q[ITEMS[i].id]*ITEMS[i].price;if(ITEMS[i].hourly)hr+=t;else st+=t;}
+      var bef=st+hr,dly=bef*DP/100,cnt=bef+dly,lg=cnt*1.18>300000?7:0;
+      var aft=cnt*(1+lg/100),vat=aft*0.18,grd=aft+vat;
+      var h='<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">'
+        +'<thead><tr style="background:#1b3a5c;color:#fff">'
+        +'<th style="padding:6px 8px;text-align:right">תיאור</th>'
+        +'<th style="padding:6px 8px;text-align:right;width:60px">יח׳</th>'
+        +'<th style="padding:6px 8px;text-align:left;width:70px">מחיר</th>'
+        +'<th style="padding:6px 8px;text-align:center;width:50px">כמות</th>'
+        +'<th style="padding:6px 8px;text-align:left;width:80px">סה"כ</th>'
+        +'</tr></thead><tbody>';
+      for(var i=0;i<sel.length;i++){
+        var x=sel[i];
+        var bg=i%2?'background:#f5f9fd':'';
+        h+='<tr style="'+bg+'">'
+          +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7">'+(x.hourly?'<span style="font-size:9px;background:#ddf0ff;color:#1a6fa6;padding:1px 3px;border-radius:2px">ש/י</span> ':'')+x.desc+'</td>'
+          +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;color:#6b8299">'+x.unit+'</td>'
+          +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7">'+f(x.price)+'</td>'
+          +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;text-align:center;font-weight:bold">'+Q[x.id]+'</td>'
+          +'<td style="padding:5px 8px;border-bottom:1px solid #edf2f7;font-weight:bold;color:#1b3a5c">'+f(Q[x.id]*x.price)+'</td>'
+          +'</tr>';
+      }
+      h+='</tbody></table>';
+      pi.innerHTML=h;
+    }
+  }
+  window.print();
+}
+
+
+/* ── SUPPLIER CANVAS + SEND BACK ── */
+function initSupCanvas(){
+  var cv=document.getElementById('supCanvas');
+  if(!cv||cv._rdy)return; cv._rdy=true;
+  var ratio=window.devicePixelRatio||1;
+  var W=cv.offsetWidth||cv.parentElement.offsetWidth||280;
+  var H=100;
+  cv.width=Math.round(W*ratio); cv.height=Math.round(H*ratio);
+  var ctx=cv.getContext('2d');
+  ctx.setTransform(1,0,0,1,0,0); ctx.scale(ratio,ratio);
+  ctx.strokeStyle='#1b3a5c'; ctx.lineWidth=2.5;
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  cv._ctx=ctx; cv._W=W; cv._H=H;
+  ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+  ctx.save(); ctx.globalAlpha=.12; ctx.textAlign='center';
+  ctx.font='13px Arial'; ctx.fillStyle='#1b3a5c';
+  ctx.fillText('\u05d7\u05ea\u05d5\u05dd \u05db\u05d0\u05df \u05d1\u05d0\u05e6\u05d1\u05e2',W/2,56); ctx.restore();
+  var dn=false,lx=0,ly=0;
+  function pos(e){var r=cv.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(cv._W/r.width),y:(s.clientY-r.top)*(cv._H/r.height)};}
+  cv.addEventListener('pointerdown',function(e){e.preventDefault();dn=true;var p=pos(e);lx=p.x;ly=p.y;},{passive:false});
+  cv.addEventListener('pointermove',function(e){if(!dn)return;e.preventDefault();var p=pos(e);cv._ctx.beginPath();cv._ctx.moveTo(lx,ly);cv._ctx.lineTo(p.x,p.y);cv._ctx.stroke();lx=p.x;ly=p.y;},{passive:false});
+  cv.addEventListener('pointerup',function(){dn=false;});
+  cv.addEventListener('pointercancel',function(){dn=false;});
+}
+function clrSup(){
+  var cv=document.getElementById('supCanvas');
+  if(!cv)return; cv._rdy=false;
+  setTimeout(function(){initSupCanvas();},10);
+}
+function sendBack(){
+  /* Signal main window to show merkaz portal */
+  try{
+    if(window.opener && !window.opener.closed){
+      window.opener.postMessage('goMerkaz','*');
+    }
+  }catch(e){}
+  window.close();
+}
+
+function dl2(blob){
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='\u05de\u05db\u05e8\u05d6_\u05d7\u05ea\u05d5\u05dd.html';
+  a.click();
+  setTimeout(function(){alert('\u05d4\u05e7\u05d5\u05d1\u05e5 \u05d4\u05d5\u05e8\u05d3 \u2014 \u05e9\u05dc\u05d7 \u05d3\u05e8\u05da WhatsApp \u05dc\u05de\u05e0\u05d4\u05dc \u05d4\u05de\u05db\u05e8\u05d6');},300);
+}
+setTimeout(function(){initSupCanvas();},400);
+
+/* ── init ── */
+var td=new Date().toISOString().split('T')[0];
+document.getElementById('SDM').value=td;
+document.getElementById('SDS').value=td;
+document.getElementById('FDT').textContent=new Date().toLocaleDateString();
+calc();
+/* init canvases after layout */
+setTimeout(function(){initSig('CM');initSig('CS');},250);
+updateBadges();
+
+function makeBtn(txt, css, fn){
+  var b=document.createElement('button');
+  b.textContent=txt;b.style.cssText=css;
+  b.onclick=fn;b.style.touchAction='manipulation';
+  return b;
+}
+function makeCard(borderColor, bgHd, items){
+  var el=document.createElement('div');
+  el.style.cssText='border:1.5px solid '+borderColor+';border-radius:8px;margin-bottom:8px;overflow:hidden';
+  var hd=document.createElement('div');
+  hd.style.cssText='background:'+bgHd+';padding:9px 12px;border-bottom:1px solid #e0e8f0';
+  for(var k in items){var d=document.createElement('div');d.style.cssText=items[k][0];d.textContent=items[k][1];hd.appendChild(d);}
+  el.appendChild(hd);
+  return el;
+}
+function loadPendingOrders(){
+  var list=document.getElementById('pendingList');if(!list)return;
+  list.innerHTML='';
+  var o=[];try{o=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  /* update merkaz header badge */
+  var mb=document.getElementById('mkzBadge');
+  if(mb){mb.style.display=o.length?'inline':'none';if(o.length)mb.textContent=o.length;}
+  if(!o.length){var em=document.createElement('div');em.style.cssText='text-align:center;padding:30px;color:#6b8299';em.textContent='\u05d0\u05d9\u05df \u05d4\u05d6\u05de\u05e0\u05d5\u05ea \u05db\u05e8\u05d2\u05e2';list.appendChild(em);return;}
+  for(var i=0;i<o.length;i++){
+    (function(x){
+      var el=document.createElement('div');
+      el.style.cssText='border:1.5px solid #c8d8e8;border-radius:8px;margin-bottom:8px;overflow:hidden';
+      var hd=document.createElement('div');hd.style.cssText='background:#f5f9fd;padding:9px 12px;border-bottom:1px solid #e0e8f0';
+      var dn=document.createElement('div');dn.style.cssText='font-size:13px;font-weight:bold;color:#1b3a5c';dn.textContent=x.name;
+      var dm=document.createElement('div');dm.style.cssText='font-size:10px;color:#6b8299;margin-top:2px';dm.textContent=(x.orderer||'')+' | '+(x.date||'');
+      hd.appendChild(dn);hd.appendChild(dm);
+      var acts=document.createElement('div');acts.style.cssText='padding:8px 12px;display:flex;gap:8px;flex-wrap:wrap';
+      var bv=makeBtn('\u{1F441} \u05e6\u05e4\u05d9\u05d9\u05d4 \u05d1\u05d4\u05d6\u05de\u05e0\u05d4','flex:1;min-width:110px;padding:10px;border:none;border-radius:7px;background:linear-gradient(135deg,#2d5f8a,#1b3a5c);color:#fff;font-family:inherit;font-size:13px;font-weight:bold;cursor:pointer',function(){viewOrder(x.id);});
+      var bs=makeBtn('\u270d\ufe0f \u05d7\u05ea\u05d5\u05dd \u05d5\u05e9\u05dc\u05d7','flex:1;min-width:110px;padding:10px;border:none;border-radius:7px;background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;font-family:inherit;font-size:13px;font-weight:bold;cursor:pointer',function(){openSM(x.id);});
+      var bd=makeBtn('\u{1F5D1}','padding:10px 13px;border:1px solid #fca5a5;border-radius:7px;background:#fff0f0;color:#e74c3c;font-family:inherit;font-size:13px;cursor:pointer',function(){delP(x.id);});
+      acts.appendChild(bv);acts.appendChild(bs);acts.appendChild(bd);
+      el.appendChild(hd);el.appendChild(acts);list.appendChild(el);
+    })(o[i]);
+  }
+}
+function viewOrder(id){
+  var o=[];try{o=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  for(var i=0;i<o.length;i++){
+    if(o[i].id===id){
+      var w=window.open('','_blank');
+      if(w){w.document.write(o[i].html);w.document.close();}
+      return;
+    }
+  }
+}
+function delP(id){
+  if(!confirm('למחוק?'))return;
+  var o=[];try{o=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  o=o.filter(function(x){return x.id!==id;});
+  localStorage.setItem('pendingOrders',JSON.stringify(o));loadPendingOrders();
+}
+var _sid='';
+function openSM(id){
+  _sid=id;var m=document.getElementById('signModal');if(m)m.style.display='flex';
+  var d=document.getElementById('supSignDate');if(d)d.value=new Date().toISOString().split('T')[0];
+  setTimeout(function(){initSC();},60);
+}
+function closeSM(){var m=document.getElementById('signModal');if(m)m.style.display='none';_sid='';}
+function initSC(){
+  var cv=document.getElementById('SC');if(!cv||cv._rdy)return;cv._rdy=true;
+  var r=window.devicePixelRatio||1,W=cv.offsetWidth||300,H=115;
+  cv.width=Math.round(W*r);cv.height=Math.round(H*r);
+  var ctx=cv.getContext('2d');ctx.setTransform(1,0,0,1,0,0);ctx.scale(r,r);
+  ctx.strokeStyle='#1b3a5c';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+  cv._ctx=ctx;cv._W=W;cv._H=H;
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+  ctx.save();ctx.globalAlpha=.12;ctx.textAlign='center';ctx.font='13px Arial';
+  ctx.fillStyle='#1b3a5c';ctx.fillText('חתום כאן באצבע',W/2,62);ctx.restore();
+  var dn=false,lx=0,ly=0;
+  function pos(e){var rc=cv.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-rc.left)*(W/rc.width),y:(s.clientY-rc.top)*(H/rc.height)};}
+  cv.addEventListener('pointerdown',function(e){e.preventDefault();dn=true;var p=pos(e);lx=p.x;ly=p.y;},{passive:false});
+  cv.addEventListener('pointermove',function(e){if(!dn)return;e.preventDefault();var p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;},{passive:false});
+  cv.addEventListener('pointerup',function(){dn=false;});cv.addEventListener('pointercancel',function(){dn=false;});
+}
+function clrSC(){var cv=document.getElementById('SC');if(!cv)return;cv._rdy=false;setTimeout(initSC,10);}
+function confirmSign(){
+  var cv=document.getElementById('SC'),img=cv?cv.toDataURL('image/png'):'';
+  var sd=(document.getElementById('supSignDate')||{value:''}).value;
+  var orders=[];try{orders=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  var ord=null;for(var i=0;i<orders.length;i++)if(orders[i].id===_sid){ord=orders[i];break;}
+  if(!ord){alert('לא נמצאה הזמנה');return;}
+  var h=ord.html;
+  h=h.replace('<canvas id="supCanvas"','<img src="'+img+'" style="width:100%;max-height:80px;object-fit:contain;display:block;margin:6px 0"><canvas id="supCanvas" style="display:none"');
+  if(sd)h=h.replace('id="supDate"','id="supDate" value="'+sd+'"');
+  h=h.replace('onclick="clrSup()"','onclick="clrSup()" style="display:none"');
+  h=h.replace('onclick="sendBack()"','onclick="sendBack()" style="display:none"');
+  var signed={id:'sig_'+Date.now(),name:ord.name,orderer:ord.orderer,date:ord.date,signed:new Date().toISOString(),html:h};
+  var sa=[];try{sa=JSON.parse(localStorage.getItem('signedOrders')||'[]');}catch(e){}
+  sa.push(signed);localStorage.setItem('signedOrders',JSON.stringify(sa));
+  orders=orders.filter(function(o){return o.id!==_sid;});
+  localStorage.setItem('pendingOrders',JSON.stringify(orders));
+  closeSM();loadPendingOrders();loadSignedMerkaz();updateBadges();
+  alert('✅ ההזמנה נחתמה ועברה לרשימת החתומות!');
+}
+function updateBadges(){
+  var ib=document.getElementById('ibadge');
+  var pb=document.getElementById('pbadge');
+  var sa=[];try{sa=JSON.parse(localStorage.getItem('signedOrders')||'[]');}catch(e){}
+  var po=[];try{po=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  if(ib){ib.style.display=sa.length?'inline':'none';if(sa.length)ib.textContent=sa.length;}
+  if(pb){pb.style.display=po.length?'inline':'none';if(po.length)pb.textContent=po.length;}
+}
+function openPendingModal(){
+  var m=document.getElementById('pendingModal');if(!m)return;m.style.display='flex';
+  var list=document.getElementById('pendingModalList');if(!list)return;list.innerHTML='';
+  var po=[];try{po=JSON.parse(localStorage.getItem('pendingOrders')||'[]');}catch(e){}
+  if(!po.length){var em=document.createElement('div');em.style.cssText='text-align:center;padding:30px;color:#6b8299';em.textContent='אין הזמנות ממתינות';list.appendChild(em);return;}
+  for(var i=0;i<po.length;i++){
+    (function(x){
+      var el=document.createElement('div');el.style.cssText='border:1.5px solid #f5a623;border-radius:8px;margin-bottom:8px;overflow:hidden';
+      var hd=document.createElement('div');hd.style.cssText='background:#fff8e1;padding:9px 12px;border-bottom:1px solid #ffe082';
+      var dn=document.createElement('div');dn.style.cssText='font-size:13px;font-weight:bold;color:#7a5200';dn.textContent='⏳ '+x.name;
+      var dm=document.createElement('div');dm.style.cssText='font-size:10px;color:#6b8299;margin-top:2px';dm.textContent=(x.orderer||'')+' | '+(x.date||'')+' | נשלח למרכז ההזמנות';
+      hd.appendChild(dn);hd.appendChild(dm);
+      var acts=document.createElement('div');acts.style.cssText='padding:8px 12px;';
+      var info=document.createElement('div');info.style.cssText='font-size:11px;color:#6b8299;text-align:center;padding:4px;';info.textContent='ממתין לחתימת ספק במרכז ההזמנות';
+      acts.appendChild(info);
+      el.appendChild(hd);el.appendChild(acts);list.appendChild(el);
+    })(po[i]);
+  }
+}
+function closePendingModal(){var m=document.getElementById('pendingModal');if(m)m.style.display='none';}
+function openInbox(){
+  var m=document.getElementById('inboxModal');if(!m)return;m.style.display='flex';
+  var list=document.getElementById('inboxList');list.innerHTML='';
+  var sa=[];try{sa=JSON.parse(localStorage.getItem('signedOrders')||'[]');}catch(e){}
+  if(!sa.length){var em=document.createElement('div');em.style.cssText='text-align:center;padding:30px;color:#6b8299';em.textContent='אין הזמנות חתומות';list.appendChild(em);return;}
+  for(var i=0;i<sa.length;i++){
+    (function(s){
+      var sd=s.signed?new Date(s.signed).toLocaleDateString('he-IL'):'';
+      var el=document.createElement('div');el.style.cssText='border:1.5px solid #27ae60;border-radius:8px;margin-bottom:10px;overflow:hidden';
+      var hd=document.createElement('div');hd.style.cssText='background:#edfbf3;padding:8px 12px;border-bottom:1px solid #b7e4c7';
+      var dn=document.createElement('div');dn.style.cssText='font-size:13px;font-weight:bold;color:#1a5c35';dn.textContent='✅ '+s.name;
+      var dm=document.createElement('div');dm.style.cssText='font-size:10px;color:#6b8299;margin-top:2px';dm.textContent=(s.orderer||'')+' | נחתם: '+sd;
+      hd.appendChild(dn);hd.appendChild(dm);
+      var acts=document.createElement('div');acts.style.cssText='padding:8px 12px;display:flex;gap:8px';
+      var bv=makeBtn('📄 צפייה והדפסה','flex:1;padding:9px;border:none;border-radius:7px;background:linear-gradient(135deg,#1b3a5c,#2d5f8a);color:#fff;font-family:inherit;font-size:12px;font-weight:bold;cursor:pointer',function(){viewS(s.id);});
+      var bd=makeBtn('🗑️ מחק','padding:9px 12px;border:1px solid #fca5a5;border-radius:7px;background:#fff0f0;color:#e74c3c;font-family:inherit;font-size:12px;cursor:pointer',function(){delS(s.id);});
+      acts.appendChild(bv);acts.appendChild(bd);el.appendChild(hd);el.appendChild(acts);list.appendChild(el);
+    })(sa[i]);
+  }
+}
+function closeInbox(){var m=document.getElementById('inboxModal');if(m)m.style.display='none';}
+function viewS(id){
+  var sa=[];try{sa=JSON.parse(localStorage.getItem('signedOrders')||'[]');}catch(e){}
+  for(var i=0;i<sa.length;i++)if(sa[i].id===id){var w=window.open('','_blank');if(w){w.document.write(sa[i].html);w.document.close();}return;}
+}
+function delS(id){
+  if(!confirm('למחוק?'))return;
+  var sa=[];try{sa=JSON.parse(localStorage.getItem('signedOrders')||'[]');}catch(e){}
+  sa=sa.filter(function(s){return s.id!==id;});
+  localStorage.setItem('signedOrders',JSON.stringify(sa));
+  updateBadges();openInbox();
+}
+
+</script>
+</body>
+</html>
